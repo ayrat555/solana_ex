@@ -74,9 +74,9 @@ defmodule Solana.RPC.Request do
   For more information, see [the Solana
   docs](https://docs.solana.com/developing/clients/jsonrpc-api#getblock).
   """
-  @spec get_block(start_slot :: non_neg_integer, opts :: keyword) :: t
-  def get_block(start_slot, opts \\ []) do
-    {"getBlock", [start_slot, encode_opts(opts)]}
+  @spec get_block(slot :: non_neg_integer, opts :: keyword) :: t
+  def get_block(slot, opts \\ []) do
+    {"getBlock", [slot, encode_opts(opts)]}
   end
 
   @doc """
@@ -86,9 +86,9 @@ defmodule Solana.RPC.Request do
   For more information, see [the Solana
   docs](https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash).
   """
-  @spec get_recent_blockhash(opts :: keyword) :: t
-  def get_recent_blockhash(opts \\ []) do
-    {"getRecentBlockhash", [encode_opts(opts)]}
+  @spec get_latest_blockhash(opts :: keyword) :: t
+  def get_latest_blockhash(opts \\ []) do
+    {"getLatestBlockhash", [encode_opts(opts)]}
   end
 
   @doc """
