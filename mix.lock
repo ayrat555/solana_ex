@@ -1,4 +1,5 @@
 %{
+  "cafezinho": {:hex, :cafezinho, "0.4.3", "0983519fc9a76d7a54347f563533120b73ba3f2a444a13431149d5c8bcee2d08", [:mix], [{:rustler, ">= 0.0.0", [hex: :rustler, repo: "hexpm", optional: true]}, {:rustler_precompiled, "~> 0.8", [hex: :rustler_precompiled, repo: "hexpm", optional: false]}], "hexpm", "1437d5de261dde0d94c012aaab48d9ee66f4588280a1ed09ab452c9995028e72"},
   "castore": {:hex, :castore, "1.0.11", "4bbd584741601eb658007339ea730b082cc61f3554cf2e8f39bf693a11b49073", [:mix], [], "hexpm", "e03990b4db988df56262852f20de0f659871c35154691427a5047f4967a16a62"},
   "dialyxir": {:hex, :dialyxir, "1.4.5", "ca1571ac18e0f88d4ab245f0b60fa31ff1b12cbae2b11bd25d207f865e8ae78a", [:mix], [{:erlex, ">= 0.2.7", [hex: :erlex, repo: "hexpm", optional: false]}], "hexpm", "b0fb08bb8107c750db5c0b324fa2df5ceaa0f9307690ee3c1f6ba5b9eb5d35c3"},
   "earmark_parser": {:hex, :earmark_parser, "1.4.43", "34b2f401fe473080e39ff2b90feb8ddfeef7639f8ee0bbf71bb41911831d77c5", [:mix], [], "hexpm", "970a3cd19503f5e8e527a190662be2cee5d98eed1ff72ed9b3d1a3d466692de8"},

@@ -54,6 +54,7 @@ defmodule Solana.MixProject do
       {:jason, ">= 1.0.0"},
       # keys and signatures
       {:ed25519, "~> 1.3"},
+      {:cafezinho, "~> 0.4.3"},
       # base58 encoding
       {:ex_base58, "~> 0.6.3"},
       # validating parameters
