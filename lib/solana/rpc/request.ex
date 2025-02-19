@@ -53,7 +53,7 @@ defmodule Solana.RPC.Request do
   """
   @spec get_account_info(account :: Solana.key(), opts :: keyword) :: t
   def get_account_info(account, opts \\ []) do
-    {"getAccountInfo", [B58.encode58(account), encode_opts(opts, %{"encoding" => "base64"})]}
+    {"getAccountInfo", [ExBase58.encode(account), encode_opts(opts, %{"encoding" => "base64"})]}
   end
 
   @doc """
@@ -64,7 +64,7 @@ defmodule Solana.RPC.Request do
   """
   @spec get_balance(account :: Solana.key(), opts :: keyword) :: t
   def get_balance(account, opts \\ []) do
-    {"getBalance", [B58.encode58(account), encode_opts(opts)]}
+    {"getBalance", [ExBase58.encode(account), encode_opts(opts)]}
   end
 
   @doc """
@@ -133,7 +133,7 @@ defmodule Solana.RPC.Request do
   @spec request_airdrop(account :: Solana.key(), sol :: pos_integer, opts :: keyword) :: t
   def request_airdrop(account, sol, opts \\ []) do
     {"requestAirdrop",
-     [B58.encode58(account), sol * Solana.lamports_per_sol(), encode_opts(opts)]}
+     [ExBase58.encode(account), sol * Solana.lamports_per_sol(), encode_opts(opts)]}
   end
 
   @doc """
@@ -145,7 +145,7 @@ defmodule Solana.RPC.Request do
   """
   @spec get_signatures_for_address(account :: Solana.key(), opts :: keyword) :: t
   def get_signatures_for_address(account, opts \\ []) do
-    {"getSignaturesForAddress", [B58.encode58(account), encode_opts(opts)]}
+    {"getSignaturesForAddress", [ExBase58.encode(account), encode_opts(opts)]}
   end
 
   @doc """
@@ -160,7 +160,7 @@ defmodule Solana.RPC.Request do
   """
   @spec get_signature_statuses(signatures :: [Solana.key()], opts :: keyword) :: t
   def get_signature_statuses(signatures, opts \\ []) when is_list(signatures) do
-    {"getSignatureStatuses", [Enum.map(signatures, &B58.encode58/1), encode_opts(opts)]}
+    {"getSignatureStatuses", [Enum.map(signatures, &ExBase58.encode/1), encode_opts(opts)]}
   end
 
   @doc """
@@ -171,7 +171,7 @@ defmodule Solana.RPC.Request do
   """
   @spec get_transaction(signature :: Solana.key(), opts :: keyword) :: t
   def get_transaction(signature, opts \\ []) do
-    {"getTransaction", [B58.encode58(signature), encode_opts(opts)]}
+    {"getTransaction", [ExBase58.encode(signature), encode_opts(opts)]}
   end
 
   @doc """
@@ -182,7 +182,7 @@ defmodule Solana.RPC.Request do
   """
   @spec get_token_supply(mint :: Solana.key(), opts :: keyword) :: t
   def get_token_supply(mint, opts \\ []) do
-    {"getTokenSupply", [B58.encode58(mint), encode_opts(opts)]}
+    {"getTokenSupply", [ExBase58.encode(mint), encode_opts(opts)]}
   end
 
   @doc """
@@ -193,7 +193,7 @@ defmodule Solana.RPC.Request do
   """
   @spec get_token_largest_accounts(mint :: Solana.key(), opts :: keyword) :: t
   def get_token_largest_accounts(mint, opts \\ []) do
-    {"getTokenLargestAccounts", [B58.encode58(mint), encode_opts(opts)]}
+    {"getTokenLargestAccounts", [ExBase58.encode(mint), encode_opts(opts)]}
   end
 
   @doc """
@@ -205,7 +205,7 @@ defmodule Solana.RPC.Request do
   @spec get_multiple_accounts(accounts :: [Solana.key()], opts :: keyword) :: t
   def get_multiple_accounts(accounts, opts \\ []) when is_list(accounts) do
     {"getMultipleAccounts",
-     [Enum.map(accounts, &B58.encode58/1), encode_opts(opts, %{"encoding" => "base64"})]}
+     [Enum.map(accounts, &ExBase58.encode/1), encode_opts(opts, %{"encoding" => "base64"})]}
   end
 
   defp encode_opts(opts, defaults \\ %{}) do
@@ -234,8 +234,8 @@ defmodule Solana.RPC.Request do
 
   defp encode_value(v) do
     cond do
-      :ok == elem(Solana.Key.check(v), 0) -> B58.encode58(v)
-      :ok == elem(Solana.Transaction.check(v), 0) -> B58.encode58(v)
+      :ok == elem(Solana.Key.check(v), 0) -> ExBase58.encode(v)
+      :ok == elem(Solana.Transaction.check(v), 0) -> ExBase58.encode(v)
       true -> v
     end
   end

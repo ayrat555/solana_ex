@@ -37,7 +37,7 @@ defmodule Solana.SystemProgram.Nonce do
        }) do
     %{
       authority: Solana.pubkey!(authority),
-      blockhash: B58.decode58!(blockhash),
+      blockhash: ExBase58.decode!(blockhash),
       calculator: calculator
     }
   end

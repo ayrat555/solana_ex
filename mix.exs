@@ -55,7 +55,7 @@ defmodule Solana.MixProject do
       # keys and signatures
       {:ed25519, "~> 1.3"},
       # base58 encoding
-      {:basefiftyeight, "~> 0.1.0"},
+      {:ex_base58, "~> 0.6.3"},
       # validating parameters
       {:nimble_options, "~> 1.1.1"},
       # docs and testing

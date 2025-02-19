@@ -5,13 +5,13 @@ defmodule Solana.KeyTest do
 
   describe "decode/1" do
     test "fails for keys which are too short" do
-      encoded = B58.encode58(Enum.into(1..31, <<>>, &<<&1::8>>))
+      encoded = ExBase58.encode(Enum.into(1..31, <<>>, &<<&1::8>>))
       assert {:error, _} = Key.decode(encoded)
       assert {:error, _} = Key.decode("12345")
     end
 
     test "fails for keys which are too long" do
-      encoded = B58.encode58(<<3, 0::32*8>>)
+      encoded = ExBase58.encode(<<3, 0::32*8>>)
       assert {:error, _} = Key.decode(encoded)
     end
 

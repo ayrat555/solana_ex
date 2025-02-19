@@ -40,38 +40,38 @@ defmodule Solana.RPC.Middleware do
   defp decode_result({_, %{"error" => error}}), do: {:error, error}
 
   defp decode_result({"requestAirdrop", airdrop_tx}) do
-    {:ok, B58.decode58!(airdrop_tx)}
+    {:ok, ExBase58.decode!(airdrop_tx)}
   end
 
   defp decode_result({"getSignaturesForAddress", signature_responses}) do
     responses =
       Enum.map(signature_responses, fn response ->
-        update_in(response, ["signature"], &B58.decode58!/1)
+        update_in(response, ["signature"], &ExBase58.decode!/1)
       end)
 
     {:ok, responses}
   end
 
   defp decode_result({"getRecentBlockhash", blockhash_result}) do
-    {:ok, update_in(blockhash_result, ["blockhash"], &B58.decode58!/1)}
+    {:ok, update_in(blockhash_result, ["blockhash"], &ExBase58.decode!/1)}
   end
 
   defp decode_result({"sendTransaction", signature}) do
-    {:ok, B58.decode58!(signature)}
+    {:ok, ExBase58.decode!(signature)}
   end
 
   defp decode_result({"getTransaction", %{"transaction" => tx} = result}) when is_map(tx) do
     tx =
       tx
       |> update_in(["message", "accountKeys"], &decode_b58_list/1)
-      |> update_in(["message", "recentBlockhash"], &B58.decode58!/1)
+      |> update_in(["message", "recentBlockhash"], &ExBase58.decode!/1)
       |> Map.update!("signatures", &decode_b58_list/1)
 
     {:ok, Map.put(result, "transaction", tx)}
   end
 
   defp decode_result({"getAccountInfo", %{} = result}) do
-    {:ok, Map.update!(result, "owner", &B58.decode58!/1)}
+    {:ok, Map.update!(result, "owner", &ExBase58.decode!/1)}
   end
 
   # just run the decoding for getAccountInfo for each item in the list
@@ -81,5 +81,5 @@ defmodule Solana.RPC.Middleware do
 
   defp decode_result({_method, result}), do: {:ok, result}
 
-  defp decode_b58_list(list), do: Enum.map(list, &B58.decode58!/1)
+  defp decode_b58_list(list), do: Enum.map(list, &ExBase58.decode!/1)
 end
