@@ -6,17 +6,18 @@ defmodule Solana.RPC.Middleware do
   @success 200..299
 
   def call(env = %{body: request}, next, _) do
-    env
-    |> Tesla.run(next)
-    |> handle_response(request)
+    with {:ok, env} <- Tesla.run(env, next),
+         {:ok, response} <- handle_response(env, request) do
+      {:ok, %{env | body: response}}
+    end
   end
 
-  defp handle_response({:ok, response = %{status: status}}, request)
+  defp handle_response(response = %{status: status}, request)
        when status in @success do
     response_content(response, request)
   end
 
-  defp handle_response({:ok, %{status: status}}, _), do: {:error, status}
+  defp handle_response(%{status: status}, _), do: {:error, status}
   defp handle_response(other, _), do: other
 
   defp response_content(%{body: body}, requests) when is_list(body) do
