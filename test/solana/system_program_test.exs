@@ -23,7 +23,7 @@ defmodule Solana.SystemProgramTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -44,7 +44,7 @@ defmodule Solana.SystemProgramTest do
         RPC.send_and_confirm(client, tracker, tx, commitment: "confirmed", timeout: 1_000)
 
       assert {:ok, %{"lamports" => ^lamports}} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(new), commitment: "confirmed")
                )
@@ -58,7 +58,7 @@ defmodule Solana.SystemProgramTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -81,7 +81,10 @@ defmodule Solana.SystemProgramTest do
         RPC.send_and_confirm(client, tracker, tx, commitment: "confirmed", timeout: 1_000)
 
       assert {:ok, %{"lamports" => ^lamports}} =
-               RPC.send(client, RPC.Request.get_account_info(new, commitment: "confirmed"))
+               RPC.send_request(
+                 client,
+                 RPC.Request.get_account_info(new, commitment: "confirmed")
+               )
     end
   end
 
@@ -95,7 +98,7 @@ defmodule Solana.SystemProgramTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -123,7 +126,7 @@ defmodule Solana.SystemProgramTest do
       expected = 1000 + lamports
 
       assert {:ok, %{"lamports" => ^expected}} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(new),
                    commitment: "confirmed",
@@ -145,7 +148,7 @@ defmodule Solana.SystemProgramTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -176,7 +179,7 @@ defmodule Solana.SystemProgramTest do
         RPC.send_and_confirm(client, tracker, tx, commitment: "confirmed", timeout: 1_000)
 
       assert {:ok, %{"lamports" => ^lamports}} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(new,
                    commitment: "confirmed",
@@ -201,7 +204,7 @@ defmodule Solana.SystemProgramTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -226,7 +229,7 @@ defmodule Solana.SystemProgramTest do
         RPC.send_and_confirm(client, tracker, tx, commitment: "confirmed", timeout: 1_000)
 
       {:ok, account_info} =
-        RPC.send(
+        RPC.send_request(
           client,
           RPC.Request.get_account_info(pubkey!(new),
             commitment: "confirmed",
@@ -251,7 +254,7 @@ defmodule Solana.SystemProgramTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -280,7 +283,7 @@ defmodule Solana.SystemProgramTest do
         RPC.send_and_confirm(client, tracker, tx, commitment: "confirmed", timeout: 1_000)
 
       {:ok, account_info} =
-        RPC.send(
+        RPC.send_request(
           client,
           RPC.Request.get_account_info(new,
             commitment: "confirmed",
@@ -303,7 +306,7 @@ defmodule Solana.SystemProgramTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -328,7 +331,7 @@ defmodule Solana.SystemProgramTest do
         RPC.send_and_confirm(client, tracker, tx, commitment: "confirmed", timeout: 1_000)
 
       {:ok, %{"data" => [data, "base64"]}} =
-        RPC.send(
+        RPC.send_request(
           client,
           RPC.Request.get_account_info(pubkey!(new),
             commitment: "confirmed",
@@ -353,7 +356,7 @@ defmodule Solana.SystemProgramTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -383,7 +386,7 @@ defmodule Solana.SystemProgramTest do
         RPC.send_and_confirm(client, tracker, tx, commitment: "confirmed", timeout: 1_000)
 
       {:ok, %{"data" => [data, "base64"]}} =
-        RPC.send(
+        RPC.send_request(
           client,
           RPC.Request.get_account_info(new,
             commitment: "confirmed",

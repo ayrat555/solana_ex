@@ -37,7 +37,7 @@ method:
 ```elixir
 key = Solana.keypair() |> Solana.pubkey!()
 client = Solana.RPC.client(network: "localhost")
-{:ok, signature} = Solana.RPC.send(client, Solana.RPC.Request.request_airdrop(key, 1))
+{:ok, signature} = Solana.RPC.send_request(client, Solana.RPC.Request.request_airdrop(key, 1))
 
 Solana.Transaction.check(signature) # {:ok, ^signature}
 ```
