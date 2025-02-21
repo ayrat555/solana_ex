@@ -36,7 +36,7 @@ defmodule Solana.RPC do
 
       iex> key = Solana.keypair() |> Solana.pubkey!()
       iex> client = Solana.RPC.client(network: "localhost")
-      iex> {:ok, signature} = Solana.RPC.send(client, Solana.RPC.Request.request_airdrop(key, 1))
+      iex> {:ok, signature} = Solana.RPC.send_request(client, Solana.RPC.Request.request_airdrop(key, 1))
       iex> is_binary(signature)
       true
 
@@ -65,8 +65,12 @@ defmodule Solana.RPC do
   @doc """
   Sends the provided requests to the configured Solana RPC endpoint.
   """
-  def send(client, requests) do
-    Tesla.post(client, "/", Solana.RPC.Request.encode(requests))
+  @spec send_request(client, [term()] | term) :: {:ok, term()} | {:error, term()}
+  def send_request(client, requests) do
+    case Tesla.post(client, "/", Solana.RPC.Request.encode(requests)) do
+      {:ok, %{body: body}} -> {:ok, body}
+      error -> error
+    end
   end
 
   @doc """
@@ -84,7 +88,7 @@ defmodule Solana.RPC do
     requests = Enum.map(List.wrap(txs), &RPC.Request.send_transaction(&1, request_opts))
 
     client
-    |> RPC.send(requests)
+    |> RPC.send_request(requests)
     |> Enum.flat_map(fn
       {:ok, signature} ->
         [signature]

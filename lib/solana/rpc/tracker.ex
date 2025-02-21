@@ -7,7 +7,7 @@ defmodule Solana.RPC.Tracker do
       iex> key = Solana.keypair() |> Solana.pubkey!()
       iex> {:ok, tracker} = Solana.RPC.Tracker.start_link(network: "localhost")
       iex> client = Solana.RPC.client(network: "localhost")
-      iex> {:ok, tx} = Solana.RPC.send(client, Solana.RPC.Request.request_airdrop(key, 1))
+      iex> {:ok, tx} = Solana.RPC.send_request(client, Solana.RPC.Request.request_airdrop(key, 1))
       iex> Solana.Tracker.start_tracking(tracker, tx)
       iex> receive do
       ...>   {:ok, [^tx]} -> IO.puts("confirmed!")
@@ -54,7 +54,7 @@ defmodule Solana.RPC.Tracker do
     request = RPC.Request.get_signature_statuses(signatures)
     commitment = Keyword.get(opts, :commitment, "finalized")
 
-    {:ok, results} = RPC.send(state.client, request)
+    {:ok, results} = RPC.send_request(state.client, request)
 
     mapped_results = signatures |> Enum.zip(results) |> Enum.into(%{})
 
