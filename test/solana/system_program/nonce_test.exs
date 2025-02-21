@@ -24,7 +24,7 @@ defmodule Solana.SystemProgram.NonceTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -49,7 +49,7 @@ defmodule Solana.SystemProgram.NonceTest do
         RPC.send_and_confirm(client, tracker, tx, commitment: "confirmed", timeout: 1_000)
 
       assert {:ok, %{}} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(new),
                    commitment: "confirmed",
@@ -73,7 +73,7 @@ defmodule Solana.SystemProgram.NonceTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -103,7 +103,7 @@ defmodule Solana.SystemProgram.NonceTest do
         RPC.send_and_confirm(client, tracker, tx, commitment: "confirmed", timeout: 1_000)
 
       {:ok, account_info} =
-        RPC.send(
+        RPC.send_request(
           client,
           RPC.Request.get_account_info(pubkey!(new),
             commitment: "confirmed",
@@ -127,7 +127,7 @@ defmodule Solana.SystemProgram.NonceTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -152,7 +152,7 @@ defmodule Solana.SystemProgram.NonceTest do
         RPC.send_and_confirm(client, tracker, tx, commitment: "confirmed", timeout: 1_000)
 
       {:ok, info} =
-        RPC.send(
+        RPC.send_request(
           client,
           RPC.Request.get_account_info(pubkey!(new),
             commitment: "confirmed",
@@ -176,7 +176,7 @@ defmodule Solana.SystemProgram.NonceTest do
         RPC.send_and_confirm(client, tracker, tx, commitment: "confirmed", timeout: 1_000)
 
       {:ok, info2} =
-        RPC.send(
+        RPC.send_request(
           client,
           RPC.Request.get_account_info(pubkey!(new),
             commitment: "confirmed",
@@ -202,7 +202,7 @@ defmodule Solana.SystemProgram.NonceTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -233,7 +233,7 @@ defmodule Solana.SystemProgram.NonceTest do
         RPC.send_and_confirm(client, tracker, tx, commitment: "confirmed", timeout: 1_000)
 
       {:ok, info} =
-        RPC.send(
+        RPC.send_request(
           client,
           RPC.Request.get_account_info(pubkey!(new),
             commitment: "confirmed",
