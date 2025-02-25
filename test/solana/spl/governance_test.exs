@@ -73,7 +73,7 @@ defmodule Solana.SPL.GovernanceTest do
     {:ok, _signature} =
       RPC.send_and_confirm(client, tracker, token_tx, commitment: "confirmed", timeout: 1_000)
 
-    name = "realm" <> String.slice(B58.encode58(pubkey!(mint)), 0..6)
+    name = "realm" <> String.slice(ExBase58.encode(pubkey!(mint)), 0..6)
     proposal_index = 0
     {:ok, realm} = Governance.find_realm_address(program, name)
 

@@ -10,7 +10,7 @@ opts = [
   bpf_program:
     Enum.map(extra_programs, fn
       {mod, path} ->
-        [B58.encode58(mod.id()), Path.expand(Path.join(["deps" | path]))]
+        [ExBase58.encode58(mod.id()), Path.expand(Path.join(["deps" | path]))]
         |> Enum.join(" ")
 
       path ->
@@ -27,7 +27,7 @@ opts = [
 
         path = Enum.reverse([name <> ".so" | rest])
 
-        [B58.encode58(id), Path.expand(Path.join(["deps" | path]))]
+        [ExBase58.encode(id), Path.expand(Path.join(["deps" | path]))]
         |> Enum.join(" ")
     end)
 ]
