@@ -71,8 +71,8 @@ defmodule Solana.SPL.Token do
        }) do
     %__MODULE__{
       native?: native?,
-      mint: B58.decode58!(mint),
-      owner: B58.decode58!(owner),
+      mint: ExBase58.decode!(mint),
+      owner: ExBase58.decode!(owner),
       amount: String.to_integer(amount)
     }
   end
@@ -88,7 +88,7 @@ defmodule Solana.SPL.Token do
   end
 
   defp add_info({"delegate", delegate}, token) do
-    %{token | delegate: B58.decode58!(delegate)}
+    %{token | delegate: ExBase58.decode!(delegate)}
   end
 
   defp add_info({"delegatedAmount", %{"amount" => amount}}, token) do

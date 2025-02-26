@@ -40,7 +40,7 @@ defmodule Solana.SPL.Token.Mint do
     case {from_mint_account_info(info), info["freezeAuthority"]} do
       {:error, _} -> :error
       {mint, nil} -> mint
-      {mint, authority} -> %{mint | freeze_authority: B58.decode58!(authority)}
+      {mint, authority} -> %{mint | freeze_authority: ExBase58.decode!(authority)}
     end
   end
 
@@ -54,7 +54,7 @@ defmodule Solana.SPL.Token.Mint do
        }) do
     %__MODULE__{
       decimals: decimals,
-      authority: B58.decode58!(authority),
+      authority: ExBase58.decode!(authority),
       initialized?: initialized?,
       supply: String.to_integer(supply)
     }

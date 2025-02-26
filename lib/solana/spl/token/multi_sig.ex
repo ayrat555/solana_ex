@@ -49,7 +49,7 @@ defmodule Solana.SPL.Token.MultiSig do
       signers_required: signers_required,
       signers_total: signers_total,
       initialized?: initialized?,
-      signers: Enum.map(signers, &B58.decode58!/1)
+      signers: Enum.map(signers, &ExBase58.decode!/1)
     }
   end
 

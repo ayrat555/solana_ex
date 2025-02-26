@@ -63,6 +63,24 @@ defmodule Solana.SPL.AssociatedToken do
   #{NimbleOptions.docs(@create_account_schema)}
   """
   def create_account(opts) do
+    do_create_account(opts, 0)
+  end
+
+  @doc """
+  Creates an associated token account idempotently, ie it doesn't do anything if account is
+  already created.
+
+  This will be owned by the `owner` regardless of who actually creates it.
+
+  ## Options
+
+  #{NimbleOptions.docs(@create_account_schema)}
+  """
+  def create_account_idempotent(opts) do
+    do_create_account(opts, 1)
+  end
+
+  defp do_create_account(opts, mode) do
     case validate(opts, @create_account_schema) do
       {:ok, params} ->
         %Instruction{
@@ -76,7 +94,7 @@ defmodule Solana.SPL.AssociatedToken do
             %Account{key: Token.id()},
             %Account{key: Solana.rent()}
           ],
-          data: Instruction.encode_data([0])
+          data: Instruction.encode_data([mode])
         }
 
       error ->
