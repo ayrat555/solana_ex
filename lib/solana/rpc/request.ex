@@ -80,6 +80,17 @@ defmodule Solana.RPC.Request do
   end
 
   @doc """
+  Returns the current block height of the node
+
+  For more information, see [the Solana
+  docs](https://solana.com/docs/rpc/http/getblockheight).
+  """
+  @spec get_block(slot :: non_neg_integer, opts :: keyword) :: t
+  def get_block_height(opts \\ []) do
+    {"getBlockHeight", [encode_opts(opts)]}
+  end
+
+  @doc """
   Returns a recent block hash from the ledger, and a fee schedule that can be
   used to compute the cost of submitting a transaction using it.
 
