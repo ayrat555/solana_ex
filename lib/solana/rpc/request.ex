@@ -90,6 +90,11 @@ defmodule Solana.RPC.Request do
     {"getBlockHeight", [encode_opts(opts)]}
   end
 
+  @spec get_slot() :: t()
+  def get_slot(opts \\ []) do
+    {"getSlot", [encode_opts(opts)]}
+  end
+
   @doc """
   Returns a recent block hash from the ledger, and a fee schedule that can be
   used to compute the cost of submitting a transaction using it.
