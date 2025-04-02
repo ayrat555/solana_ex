@@ -53,7 +53,7 @@ defmodule Solana.RPC.Request do
   """
   @spec get_account_info(account :: Solana.key(), opts :: keyword) :: t
   def get_account_info(account, opts \\ []) do
-    {"getAccountInfo", [ExBase58.encode(account), encode_opts(opts, %{"encoding" => "base64"})]}
+    {"getAccountInfo", [ExBase58.encode!(account), encode_opts(opts, %{"encoding" => "base64"})]}
   end
 
   @doc """
@@ -64,7 +64,7 @@ defmodule Solana.RPC.Request do
   """
   @spec get_balance(account :: Solana.key(), opts :: keyword) :: t
   def get_balance(account, opts \\ []) do
-    {"getBalance", [ExBase58.encode(account), encode_opts(opts)]}
+    {"getBalance", [ExBase58.encode!(account), encode_opts(opts)]}
   end
 
   @doc """
