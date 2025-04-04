@@ -67,6 +67,11 @@ defmodule Solana.RPC.Request do
     {"getBalance", [ExBase58.encode!(account), encode_opts(opts)]}
   end
 
+  @spec get_token_account_balance(account :: Solana.key(), opts :: keyword) :: t
+  def get_token_account_balance(account, opts \\ []) do
+    {"getTokenAccountBalance", [ExBase58.encode!(account), encode_opts(opts)]}
+  end
+
   @doc """
   Returns identity and transaction information about a confirmed block in the
   ledger.
