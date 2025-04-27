@@ -20,10 +20,11 @@ defmodule Solana.SPL.AssociatedToken do
 
   This address will be unique to the mint/owner combination.
   """
-  @spec find_address(mint :: Solana.key(), owner :: Solana.key()) :: {:ok, Solana.key()} | :error
-  def find_address(mint, owner) do
+  @spec find_address(mint :: Solana.key(), owner :: Solana.key(), id :: Solana.key()) ::
+          {:ok, Solana.key()} | :error
+  def find_address(mint, owner, token_id \\ Token.id(), ata_id \\ id()) do
     with true <- Ed25519.on_curve?(owner),
-         {:ok, key, _} <- Key.find_address([owner, Token.id(), mint], id()) do
+         {:ok, key, _} <- Key.find_address([owner, token_id, mint], ata_id) do
       {:ok, key}
     else
       _ -> :error

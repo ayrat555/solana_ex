@@ -39,7 +39,7 @@ defmodule Solana.SPL.Token do
   The Token Program's ID.
   """
   @spec id() :: binary
-  def id(), do: Solana.pubkey!("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
+  def id(), do: Solana.pubkey!("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb")
 
   @doc """
   The size of a serialized token account.
