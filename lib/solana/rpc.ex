@@ -55,10 +55,10 @@ defmodule Solana.RPC do
       {:ok, config} ->
         middleware = [
           {Tesla.Middleware.BaseUrl, config.network},
+          {Tesla.Middleware.Headers, config.headers},
           RPC.Middleware,
           Tesla.Middleware.JSON,
-          {Tesla.Middleware.Retry, retry_opts(config)},
-          {Tesla.Middleware.Headers, config.headers}
+          {Tesla.Middleware.Retry, retry_opts(config)}
         ]
 
         Tesla.client(middleware, config.adapter)
