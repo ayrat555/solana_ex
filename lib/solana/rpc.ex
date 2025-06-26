@@ -26,6 +26,11 @@ defmodule Solana.RPC do
       type: :keyword_list,
       default: [],
       doc: "Options to pass to `Tesla.Middleware.Retry`."
+    ],
+    headers: [
+      type: {:list, {:tuple, [:string, :string]}},
+      default: [],
+      doc: "API headers"
     ]
   ]
   @doc """
@@ -50,6 +55,7 @@ defmodule Solana.RPC do
       {:ok, config} ->
         middleware = [
           {Tesla.Middleware.BaseUrl, config.network},
+          {Tesla.Middleware.Headers, config.headers},
           RPC.Middleware,
           Tesla.Middleware.JSON,
           {Tesla.Middleware.Retry, retry_opts(config)}

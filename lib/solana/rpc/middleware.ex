@@ -17,7 +17,7 @@ defmodule Solana.RPC.Middleware do
     response_content(response, request)
   end
 
-  defp handle_response(%{status: status}, _), do: {:error, status}
+  defp handle_response(request, _), do: {:error, request}
   defp handle_response(other, _), do: other
 
   defp response_content(%{body: body}, requests) when is_list(body) do
