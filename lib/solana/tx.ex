@@ -40,7 +40,7 @@ defmodule Solana.Transaction do
   """
   @spec decode(encoded :: binary) :: {:ok, binary} | {:error, binary}
   def decode(encoded) when is_binary(encoded) do
-    case B58.decode58(encoded) do
+    case ExBase58.decode(encoded) do
       {:ok, decoded} -> check(decoded)
       _ -> {:error, "invalid signature"}
     end
@@ -196,7 +196,11 @@ defmodule Solana.Transaction do
     Enum.into(Enum.with_index(accounts, &{&1.key, &2}), %{})
   end
 
-  defp sign({secret, pk}, message), do: Ed25519.signature(message, secret, pk)
+  defp sign({secret, pk}, message) do
+    {:ok, signature} = Cafezinho.sign(message, secret <> pk)
+
+    signature
+  end
 
   @doc """
   Parses a `t:Solana.Transaction.t/0` from data encoded in Solana's [binary

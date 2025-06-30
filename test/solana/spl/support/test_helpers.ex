@@ -1,4 +1,4 @@
-defmodule Solana.TestHelpers do
+defmodule Solana.SPL.TestHelpers do
   @moduledoc """
   Some helper functions for testing Solana programs.
   """
@@ -18,10 +18,7 @@ defmodule Solana.TestHelpers do
     request_opts = Keyword.take(opts, [:commitment])
 
     {:ok, tx} =
-      RPC.send_request(
-        client,
-        RPC.Request.request_airdrop(Solana.pubkey!(payer), sol, request_opts)
-      )
+      RPC.send(client, RPC.Request.request_airdrop(Solana.pubkey!(payer), sol, request_opts))
 
     :ok = RPC.Tracker.start_tracking(tracker, tx, request_opts)
 
