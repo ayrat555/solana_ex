@@ -207,6 +207,17 @@ defmodule Solana.RPC.Request do
   end
 
   @doc """
+  Returns the slot of the lowest confirmed block that has not been purged from the ledger.
+
+  For more information, see [the Solana
+  docs](https://www.quicknode.com/docs/solana/getFirstAvailableBlock).
+  """
+  @spec get_first_available_block() :: t()
+  def get_first_available_block do
+    {"getFirstAvailableBlock", []}
+  end
+
+  @doc """
   Returns the 20 largest accounts of a particular SPL Token type.
 
   For more information, see [the Solana
