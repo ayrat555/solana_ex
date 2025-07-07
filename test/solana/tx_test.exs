@@ -4,7 +4,7 @@ defmodule Solana.TransactionTest do
   import ExUnit.CaptureLog
   import Solana, only: [pubkey!: 1]
 
-  alias Solana.{Transaction, Instruction, Account}
+  alias Solana.{Transaction, Instruction, CompactArray, Account}
 
   describe "to_binary/1" do
     test "fails if there's no blockhash" do
@@ -269,6 +269,85 @@ defmodule Solana.TransactionTest do
       assert actual.payer == pubkey!(from)
       assert actual.instructions == [ix, ix]
       assert actual.blockhash == blockhash
+    end
+  end
+
+  describe "encode_message/1" do
+    test "fails if there's no blockhash" do
+      payer = Solana.keypair()
+      program = Solana.keypair() |> pubkey!()
+
+      ix = %Instruction{
+        program: program,
+        accounts: [
+          %Account{signer?: true, writable?: true, key: pubkey!(payer)}
+        ]
+      }
+
+      tx = %Transaction{payer: pubkey!(payer), instructions: [ix], signers: [payer]}
+      assert Transaction.encode_message(tx) == {:error, :no_blockhash}
+    end
+
+    test "fails if there's no instructions" do
+      payer = Solana.keypair()
+      blockhash = Solana.keypair() |> pubkey!()
+
+      tx = %Transaction{
+        payer: pubkey!(payer),
+        blockhash: blockhash,
+        instructions: [],
+        signers: [payer]
+      }
+
+      assert Transaction.encode_message(tx) == {:error, :no_instructions}
+    end
+
+    test "fails if an instruction doesn't have a program" do
+      blockhash = Solana.keypair() |> pubkey!()
+      payer = Solana.keypair()
+
+      ix = %Instruction{
+        accounts: [
+          %Account{key: pubkey!(payer), writable?: true, signer?: true}
+        ]
+      }
+
+      tx = %Transaction{
+        payer: pubkey!(payer),
+        instructions: [ix],
+        blockhash: blockhash,
+        signers: [payer]
+      }
+
+      assert Transaction.encode_message(tx) == {:error, :no_program}
+    end
+
+    test "encodes message from valid instructions, accounts and blokhash" do
+      from = Solana.keypair()
+      to = Solana.keypair()
+      program = Solana.keypair() |> pubkey!()
+      blockhash = Solana.keypair() |> pubkey!()
+
+      ix = %Instruction{
+        program: program,
+        accounts: [
+          %Account{key: pubkey!(to)},
+          %Account{signer?: true, writable?: true, key: pubkey!(from)}
+        ]
+      }
+
+      tx = %Transaction{
+        payer: pubkey!(from),
+        instructions: [ix, ix],
+        blockhash: blockhash,
+        signers: [from]
+      }
+
+      assert <<_message_header::binary-size(3), message_contents::binary>> =
+               Transaction.encode_message(tx)
+
+      assert {_account_keys, _hash_and_ixs, _key_count} =
+               CompactArray.decode_and_split(message_contents, 32)
     end
   end
 
