@@ -113,6 +113,17 @@ defmodule Solana.RPC.Request do
   end
 
   @doc """
+  Get the fee the network will charge for a particular Message
+
+  For more information, see [the Solana
+  docs](https://solana.com/docs/rpc/http/getfeeformessage).
+  """
+  @spec get_fee_for_message(binary(), opts :: keyword()) :: t
+  def get_fee_for_message(message, opts \\ []) do
+    {"getFeeForMessage", [message, encode_opts(opts)]}
+  end
+
+  @doc """
   Returns minimum balance required to make an account rent exempt.
 
   For more information, see [the Solana

@@ -114,6 +114,25 @@ defmodule Solana.Transaction do
     end
   end
 
+  @spec encode_message(tx :: t) :: binary() | {:error, encoding_err()}
+  def encode_message(%__MODULE__{blockhash: nil}), do: {:error, :no_blockhash}
+  def encode_message(%__MODULE__{instructions: []}), do: {:error, :no_instructions}
+
+  def encode_message(tx) do
+    case check_instructions(List.flatten(tx.instructions)) do
+      {:ok, ixs} ->
+        accounts = compile_accounts(ixs, tx.payer)
+
+        encode_message(accounts, tx.blockhash, ixs)
+
+      {:error, :no_program, _idx} ->
+        {:error, :no_program}
+
+      {:error, message, _idx} ->
+        {:error, message}
+    end
+  end
+
   defp check_instructions(ixs) do
     ixs
     |> Enum.with_index()
