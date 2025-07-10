@@ -18,7 +18,6 @@ defmodule Solana.RPC.Middleware do
   end
 
   defp handle_response(request, _), do: {:error, request}
-  defp handle_response(other, _), do: other
 
   defp response_content(%{body: body}, requests) when is_list(body) do
     responses = body |> Enum.sort_by(& &1["id"]) |> Enum.map(&extract_result/1)
