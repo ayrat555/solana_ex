@@ -1,7 +1,7 @@
 defmodule Solana.MixProject do
   use Mix.Project
 
-  @source_url "https://github.com/dcrck/solana-elixir"
+  @source_url "https://github.com/ayrat555/solana_ex"
   @version "0.2.0"
 
   def project do
@@ -37,10 +37,9 @@ defmodule Solana.MixProject do
   defp package do
     [
       name: "solana",
-      maintainers: ["Derek Meer"],
+      maintainers: ["Airat Badykov"],
       licenses: ["MIT"],
       links: %{
-        "SourceHut" => "https://git.sr.ht/~dcrck/solana",
         "GitHub" => @source_url
       }
     ]
@@ -60,7 +59,7 @@ defmodule Solana.MixProject do
       # validating parameters
       {:nimble_options, "~> 1.1.1"},
       # docs and testing
-      {:ex_doc, "~> 0.25.5", only: :dev, runtime: false},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end
