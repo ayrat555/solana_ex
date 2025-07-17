@@ -22,7 +22,7 @@ defmodule Solana.SPL.AssociatedToken do
   """
   @spec find_address(mint :: Solana.key(), owner :: Solana.key()) :: {:ok, Solana.key()} | :error
   def find_address(mint, owner) do
-    with true <- Ed25519.on_curve?(owner),
+    with true <- Cafezinho.valid_point?(owner),
          {:ok, key, _} <- Key.find_address([owner, Token.id(), mint], id()) do
       {:ok, key}
     else

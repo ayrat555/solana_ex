@@ -6,7 +6,7 @@ defmodule Solana.Key do
   """
 
   @typedoc "Solana public or private key"
-  @type t :: Ed25519.key()
+  @type t :: binary()
 
   @typedoc "a public/private keypair"
   @type pair :: {t(), t()}
@@ -122,7 +122,7 @@ defmodule Solana.Key do
   defp hash(data), do: :crypto.hash(:sha256, data)
 
   defp verify_off_curve(hash) do
-    if Ed25519.on_curve?(hash), do: {:error, :invalid_seeds}, else: {:ok, hash}
+    if Cafezinho.valid_point?(hash), do: {:error, :invalid_seeds}, else: {:ok, hash}
   end
 
   @doc """
