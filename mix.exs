@@ -54,7 +54,7 @@ defmodule Solana.MixProject do
       # keys and signatures
       {:cafezinho, "~> 0.4.4"},
       # base58 encoding
-      {:ex_base58, "~> 0.6.3"},
+      {:ex_base58, "~> 0.6.5"},
       # validating parameters
       {:nimble_options, "~> 1.1.1"},
       # docs and testing
