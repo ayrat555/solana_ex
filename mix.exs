@@ -52,10 +52,9 @@ defmodule Solana.MixProject do
       # json library
       {:jason, ">= 1.0.0"},
       # keys and signatures
-      {:ed25519, "~> 1.3"},
-      {:cafezinho, "~> 0.4.3"},
+      {:cafezinho, "~> 0.4.4"},
       # base58 encoding
-      {:ex_base58, "~> 0.6.3"},
+      {:ex_base58, "~> 0.6.5"},
       # validating parameters
       {:nimble_options, "~> 1.1.1"},
       # docs and testing
