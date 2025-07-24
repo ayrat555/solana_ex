@@ -3,8 +3,12 @@ defmodule Solana.SPL.TokenSwap do
   Functions for interacting with Solana's [Token Swap
   Program](https://spl.solana.com/token-swap).
   """
-  alias Solana.{Instruction, Account, SystemProgram}
   import Solana.Helpers
+
+  alias Solana.Account
+  alias Solana.Instruction
+  alias Solana.SPL.Token
+  alias Solana.SystemProgram
 
   @curves [:product, :price, :stable, :offset]
 
@@ -12,13 +16,13 @@ defmodule Solana.SPL.TokenSwap do
   The Token Swap Program's ID.
   """
   @spec id() :: binary
-  def id(), do: Solana.pubkey!("SwaPpA9LAaLfeLi3a68M4DjnLqgtticKg6CnyNwgAC8")
+  def id, do: Solana.pubkey!("SwaPpA9LAaLfeLi3a68M4DjnLqgtticKg6CnyNwgAC8")
 
   @doc """
   The size of a serialized token swap account.
   """
   @spec byte_size() :: pos_integer
-  def byte_size(), do: 324
+  def byte_size, do: 324
 
   @doc """
   Translates the result of a `Solana.RPC.Request.get_account_info/2` into
@@ -67,8 +71,7 @@ defmodule Solana.SPL.TokenSwap do
   def from_account_info(_), do: :error
 
   @doc false
-  def validate_fee(f = {n, d})
-      when is_integer(n) and n > 0 and is_integer(d) and d > 0 do
+  def validate_fee({n, d} = f) when is_integer(n) and n > 0 and is_integer(d) and d > 0 do
     {:ok, f}
   end
 
@@ -215,14 +218,14 @@ defmodule Solana.SPL.TokenSwap do
         %Account{key: params.pool_mint, writable?: true},
         %Account{key: params.fee_account},
         %Account{key: params.pool, writable?: true},
-        %Account{key: Solana.SPL.Token.id()}
+        %Account{key: Token.id()}
       ],
       data: Instruction.encode_data(initialize_data(params))
     }
   end
 
-  defp initialize_data(params = %{curve: {type, parameters}}) do
-    [
+  defp initialize_data(%{curve: {type, parameters}} = params) do
+    List.flatten([
       0,
       encode_fee(params.trade_fee),
       encode_fee(params.owner_trade_fee),
@@ -230,8 +233,7 @@ defmodule Solana.SPL.TokenSwap do
       encode_fee(params.host_fee),
       Enum.find_index(@curves, &(&1 == type)),
       {parameters, 32 * 8}
-    ]
-    |> List.flatten()
+    ])
   end
 
   defp encode_fee({n, d}), do: [{n, 64}, {d, 64}]
@@ -320,7 +322,7 @@ defmodule Solana.SPL.TokenSwap do
               %Account{key: params.user_destination, writable?: true},
               %Account{key: params.pool_mint, writable?: true},
               %Account{key: params.fee_account, writable?: true},
-              %Account{key: Solana.SPL.Token.id()},
+              %Account{key: Token.id()},
               host_fee_account(params)
             ]),
           data: Instruction.encode_data([1, {params.amount, 64}, {params.minimum_return, 64}])
@@ -422,7 +424,7 @@ defmodule Solana.SPL.TokenSwap do
               %Account{key: params.swap_b, writable?: true},
               %Account{key: params.pool_mint, writable?: true},
               %Account{key: params.user_pool, writable?: true},
-              %Account{key: Solana.SPL.Token.id()}
+              %Account{key: Token.id()}
             ]),
           data:
             Instruction.encode_data([
@@ -529,7 +531,7 @@ defmodule Solana.SPL.TokenSwap do
               %Account{key: params.user_a, writable?: true},
               %Account{key: params.user_b, writable?: true},
               %Account{key: params.fee_account, writable?: true},
-              %Account{key: Solana.SPL.Token.id()}
+              %Account{key: Token.id()}
             ]),
           data:
             Instruction.encode_data([
@@ -619,7 +621,7 @@ defmodule Solana.SPL.TokenSwap do
               %Account{key: params.swap_b, writable?: true},
               %Account{key: params.pool_mint, writable?: true},
               %Account{key: params.user_pool, writable?: true},
-              %Account{key: Solana.SPL.Token.id()}
+              %Account{key: Token.id()}
             ]),
           data: Instruction.encode_data([4, {params.amount, 64}, {params.amount_pool, 64}])
         }
@@ -709,7 +711,7 @@ defmodule Solana.SPL.TokenSwap do
               %Account{key: params.swap_b, writable?: true},
               %Account{key: params.user_token, writable?: true},
               %Account{key: params.fee_account, writable?: true},
-              %Account{key: Solana.SPL.Token.id()}
+              %Account{key: Token.id()}
             ]),
           data: Instruction.encode_data([5, {params.amount, 64}, {params.amount_pool, 64}])
         }

@@ -4,13 +4,15 @@ defmodule Solana.SystemProgram do
   Program](https://docs.solana.com/developing/runtime-facilities/programs#system-program)
   """
 
-  alias Solana.{Instruction, Account}
   import Solana.Helpers
+
+  alias Solana.Account
+  alias Solana.Instruction
 
   @doc """
   The System Program's program ID.
   """
-  def id(), do: Solana.pubkey!("11111111111111111111111111111111")
+  def id, do: Solana.pubkey!("11111111111111111111111111111111")
 
   @create_account_schema [
     lamports: [
@@ -264,7 +266,7 @@ defmodule Solana.SystemProgram do
     }
   end
 
-  defp create_account_with_seed_accounts(params = %{from: from, base: from}) do
+  defp create_account_with_seed_accounts(%{from: from, base: from} = params) do
     [
       %Account{key: from, signer?: true, writable?: true},
       %Account{key: params.new, writable?: true}

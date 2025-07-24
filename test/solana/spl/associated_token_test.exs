@@ -1,11 +1,13 @@
 defmodule Solana.SPL.AssociatedTokenTest do
   use ExUnit.Case, async: true
 
-  import Solana.SPL.TestHelpers, only: [create_payer: 3, keypairs: 1]
   import Solana, only: [pubkey!: 1]
+  import Solana.SPL.TestHelpers, only: [create_payer: 3, keypairs: 1]
 
-  alias Solana.{RPC, Transaction}
-  alias Solana.SPL.{AssociatedToken, Token}
+  alias Solana.RPC
+  alias Solana.SPL.AssociatedToken
+  alias Solana.SPL.Token
+  alias Solana.Transaction
 
   setup_all do
     {:ok, tracker} = RPC.Tracker.start_link(network: "localhost", t: 100)

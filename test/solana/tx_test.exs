@@ -4,12 +4,15 @@ defmodule Solana.TransactionTest do
   import ExUnit.CaptureLog
   import Solana, only: [pubkey!: 1]
 
-  alias Solana.{Transaction, Instruction, CompactArray, Account}
+  alias Solana.Account
+  alias Solana.CompactArray
+  alias Solana.Instruction
+  alias Solana.Transaction
 
   describe "to_binary/1" do
     test "fails if there's no blockhash" do
       payer = Solana.keypair()
-      program = Solana.keypair() |> pubkey!()
+      program = pubkey!(Solana.keypair())
 
       ix = %Instruction{
         program: program,
@@ -23,8 +26,8 @@ defmodule Solana.TransactionTest do
     end
 
     test "fails if there's no payer" do
-      blockhash = Solana.keypair() |> pubkey!()
-      program = Solana.keypair() |> pubkey!()
+      blockhash = pubkey!(Solana.keypair())
+      program = pubkey!(Solana.keypair())
 
       ix = %Instruction{
         program: program,
@@ -39,13 +42,13 @@ defmodule Solana.TransactionTest do
 
     test "fails if there's no instructions" do
       payer = Solana.keypair()
-      blockhash = Solana.keypair() |> pubkey!()
+      blockhash = pubkey!(Solana.keypair())
       tx = %Transaction{payer: pubkey!(payer), blockhash: blockhash}
       assert Transaction.to_binary(tx) == {:error, :no_instructions}
     end
 
     test "fails if an instruction doesn't have a program" do
-      blockhash = Solana.keypair() |> pubkey!()
+      blockhash = pubkey!(Solana.keypair())
       payer = Solana.keypair()
 
       ix = %Instruction{
@@ -65,8 +68,8 @@ defmodule Solana.TransactionTest do
     end
 
     test "fails if a signer is missing or if there's unnecessary signers" do
-      blockhash = Solana.keypair() |> pubkey!()
-      program = Solana.keypair() |> pubkey!()
+      blockhash = pubkey!(Solana.keypair())
+      program = pubkey!(Solana.keypair())
       payer = Solana.keypair()
       signer = Solana.keypair()
 
@@ -88,8 +91,8 @@ defmodule Solana.TransactionTest do
       payer = Solana.keypair()
       signer = Solana.keypair()
       read_only = Solana.keypair()
-      program = Solana.keypair() |> pubkey!()
-      blockhash = Solana.keypair() |> pubkey!()
+      program = pubkey!(Solana.keypair())
+      blockhash = pubkey!(Solana.keypair())
 
       ix = %Instruction{
         program: program,
@@ -120,8 +123,8 @@ defmodule Solana.TransactionTest do
     test "payer is writable and a signer" do
       payer = Solana.keypair()
       read_only = Solana.keypair()
-      program = Solana.keypair() |> pubkey!()
-      blockhash = Solana.keypair() |> pubkey!()
+      program = pubkey!(Solana.keypair())
+      blockhash = pubkey!(Solana.keypair())
 
       ix = %Instruction{
         program: program,
@@ -150,8 +153,8 @@ defmodule Solana.TransactionTest do
       writable = Solana.keypair()
       signer = Solana.keypair()
       read_only = Solana.keypair()
-      program = Solana.keypair() |> pubkey!()
-      blockhash = Solana.keypair() |> pubkey!()
+      program = pubkey!(Solana.keypair())
+      blockhash = pubkey!(Solana.keypair())
 
       ix = %Instruction{
         program: program,
@@ -181,8 +184,8 @@ defmodule Solana.TransactionTest do
     test "dedups signatures and accounts" do
       from = Solana.keypair()
       to = Solana.keypair()
-      program = Solana.keypair() |> pubkey!()
-      blockhash = Solana.keypair() |> pubkey!()
+      program = pubkey!(Solana.keypair())
+      blockhash = pubkey!(Solana.keypair())
 
       ix = %Instruction{
         program: program,
@@ -216,8 +219,8 @@ defmodule Solana.TransactionTest do
       payer = Solana.keypair()
       signer = Solana.keypair()
       read_only = Solana.keypair()
-      program = Solana.keypair() |> pubkey!()
-      blockhash = Solana.keypair() |> pubkey!()
+      program = pubkey!(Solana.keypair())
+      blockhash = pubkey!(Solana.keypair())
 
       ix = %Instruction{
         program: program,
@@ -242,8 +245,8 @@ defmodule Solana.TransactionTest do
     test "can parse a properly encoded tranaction" do
       from = Solana.keypair()
       to = Solana.keypair()
-      program = Solana.keypair() |> pubkey!()
-      blockhash = Solana.keypair() |> pubkey!()
+      program = pubkey!(Solana.keypair())
+      blockhash = pubkey!(Solana.keypair())
 
       ix = %Instruction{
         program: program,
@@ -275,7 +278,7 @@ defmodule Solana.TransactionTest do
   describe "encode_message/1" do
     test "fails if there's no blockhash" do
       payer = Solana.keypair()
-      program = Solana.keypair() |> pubkey!()
+      program = pubkey!(Solana.keypair())
 
       ix = %Instruction{
         program: program,
@@ -290,7 +293,7 @@ defmodule Solana.TransactionTest do
 
     test "fails if there's no instructions" do
       payer = Solana.keypair()
-      blockhash = Solana.keypair() |> pubkey!()
+      blockhash = pubkey!(Solana.keypair())
 
       tx = %Transaction{
         payer: pubkey!(payer),
@@ -303,7 +306,7 @@ defmodule Solana.TransactionTest do
     end
 
     test "fails if an instruction doesn't have a program" do
-      blockhash = Solana.keypair() |> pubkey!()
+      blockhash = pubkey!(Solana.keypair())
       payer = Solana.keypair()
 
       ix = %Instruction{
@@ -325,8 +328,8 @@ defmodule Solana.TransactionTest do
     test "encodes message from valid instructions, accounts and blokhash" do
       from = Solana.keypair()
       to = Solana.keypair()
-      program = Solana.keypair() |> pubkey!()
-      blockhash = Solana.keypair() |> pubkey!()
+      program = pubkey!(Solana.keypair())
+      blockhash = pubkey!(Solana.keypair())
 
       ix = %Instruction{
         program: program,
@@ -365,19 +368,13 @@ defmodule Solana.TransactionTest do
 
     test "fails for signatures which aren't base58-encoded" do
       assert {:error, _} =
-               Transaction.decode(
-                 "0x300000000000000000000000000000000000000000000000000000000000000000000"
-               )
+               Transaction.decode("0x300000000000000000000000000000000000000000000000000000000000000000000")
 
       assert {:error, _} =
-               Transaction.decode(
-                 "0x300000000000000000000000000000000000000000000000000000000000000"
-               )
+               Transaction.decode("0x300000000000000000000000000000000000000000000000000000000000000")
 
       assert {:error, _} =
-               Transaction.decode(
-                 "135693854574979916511997248057056142015550763280047535983739356259273198796800000"
-               )
+               Transaction.decode("135693854574979916511997248057056142015550763280047535983739356259273198796800000")
     end
 
     test "works for regular signatures" do
@@ -391,9 +388,7 @@ defmodule Solana.TransactionTest do
   describe "decode!/1" do
     test "throws for signatures which aren't base58-encoded" do
       assert_raise ArgumentError, fn ->
-        Transaction.decode!(
-          "0x300000000000000000000000000000000000000000000000000000000000000000000"
-        )
+        Transaction.decode!("0x300000000000000000000000000000000000000000000000000000000000000000000")
       end
 
       assert_raise ArgumentError, fn ->
@@ -401,9 +396,7 @@ defmodule Solana.TransactionTest do
       end
 
       assert_raise ArgumentError, fn ->
-        Transaction.decode!(
-          "135693854574979916511997248057056142015550763280047535983739356259273198796800000"
-        )
+        Transaction.decode!("135693854574979916511997248057056142015550763280047535983739356259273198796800000")
       end
     end
 

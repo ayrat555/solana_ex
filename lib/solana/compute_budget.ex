@@ -1,4 +1,5 @@
 defmodule Solana.ComputeBudget do
+  @moduledoc false
   import Solana.Helpers
 
   alias Solana.Instruction

@@ -40,7 +40,7 @@ defmodule Solana.RPC.Tracker do
   @doc false
   def init(opts) do
     client_opts = Keyword.take(opts, [:network, :retry_options, :adapter])
-    {:ok, %{client: Solana.RPC.client(client_opts), t: Keyword.get(opts, :t, 500)}}
+    {:ok, %{client: RPC.client(client_opts), t: Keyword.get(opts, :t, 500)}}
   end
 
   @doc false
@@ -56,7 +56,7 @@ defmodule Solana.RPC.Tracker do
 
     {:ok, results} = RPC.send_request(state.client, request)
 
-    mapped_results = signatures |> Enum.zip(results) |> Enum.into(%{})
+    mapped_results = signatures |> Enum.zip(results) |> Map.new()
 
     {_failed, not_failed} =
       Enum.split_with(signatures, fn signature ->

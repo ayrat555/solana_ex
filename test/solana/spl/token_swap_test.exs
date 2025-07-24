@@ -1,14 +1,18 @@
 defmodule Solana.SPL.TokenSwapTest do
   use ExUnit.Case, async: true
 
-  import Solana.SPL.TestHelpers, only: [create_payer: 3, keypairs: 1]
   import Solana, only: [pubkey!: 1]
+  import Solana.SPL.TestHelpers, only: [create_payer: 3, keypairs: 1]
 
-  alias Solana.{Key, RPC, Transaction, SPL.Token, SPL.TokenSwap}
+  alias Solana.Key
+  alias Solana.RPC
+  alias Solana.SPL.Token
+  alias Solana.SPL.TokenSwap
+  alias Solana.Transaction
 
   @fees [
-    trade_fee: {25, 10000},
-    owner_trade_fee: {5, 10000},
+    trade_fee: {25, 10_000},
+    owner_trade_fee: {5, 10_000},
     owner_withdraw_fee: {1, 6},
     host_fee: {2, 10}
   ]
@@ -353,8 +357,7 @@ defmodule Solana.SPL.TokenSwapTest do
         )
 
       check_requests =
-        [user_a, user_b, user_pool, token_a, token_b]
-        |> Enum.map(fn pair ->
+        Enum.map([user_a, user_b, user_pool, token_a, token_b], fn pair ->
           RPC.Request.get_account_info(pubkey!(pair),
             commitment: "confirmed",
             encoding: "jsonParsed"
@@ -585,8 +588,7 @@ defmodule Solana.SPL.TokenSwapTest do
         )
 
       check_requests =
-        [fee_account, user_a, user_b, user_pool, token_a, token_b]
-        |> Enum.map(fn pair ->
+        Enum.map([fee_account, user_a, user_b, user_pool, token_a, token_b], fn pair ->
           RPC.Request.get_account_info(pubkey!(pair),
             commitment: "confirmed",
             encoding: "jsonParsed"
@@ -794,8 +796,7 @@ defmodule Solana.SPL.TokenSwapTest do
         )
 
       check_requests =
-        [user_a, user_b, token_a, token_b, fee_account]
-        |> Enum.map(fn pair ->
+        Enum.map([user_a, user_b, token_a, token_b, fee_account], fn pair ->
           RPC.Request.get_account_info(pubkey!(pair),
             commitment: "confirmed",
             encoding: "jsonParsed"
@@ -1016,8 +1017,7 @@ defmodule Solana.SPL.TokenSwapTest do
         )
 
       check_requests =
-        [user_a, user_b, user_pool, token_a, token_b]
-        |> Enum.map(fn pair ->
+        Enum.map([user_a, user_b, user_pool, token_a, token_b], fn pair ->
           RPC.Request.get_account_info(pubkey!(pair),
             commitment: "confirmed",
             encoding: "jsonParsed"
@@ -1263,8 +1263,7 @@ defmodule Solana.SPL.TokenSwapTest do
         )
 
       check_requests =
-        [user_a, user_b, user_pool, token_a, token_b]
-        |> Enum.map(fn pair ->
+        Enum.map([user_a, user_b, user_pool, token_a, token_b], fn pair ->
           RPC.Request.get_account_info(pubkey!(pair),
             commitment: "confirmed",
             encoding: "jsonParsed"

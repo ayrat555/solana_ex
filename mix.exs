@@ -60,7 +60,8 @@ defmodule Solana.MixProject do
       # docs and testing
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:styler, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
   end
 

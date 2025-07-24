@@ -3,8 +3,11 @@ defmodule Solana.SPL.Token do
   Functions for interacting with Solana's [Token
   Program](https://spl.solana.com/token).
   """
-  alias Solana.{Instruction, Account, SystemProgram}
   import Solana.Helpers
+
+  alias Solana.Account
+  alias Solana.Instruction
+  alias Solana.SystemProgram
 
   @typedoc "Token account metadata."
   @type t :: %__MODULE__{
@@ -39,13 +42,13 @@ defmodule Solana.SPL.Token do
   The Token Program's ID.
   """
   @spec id() :: binary
-  def id(), do: Solana.pubkey!("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
+  def id, do: Solana.pubkey!("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
 
   @doc """
   The size of a serialized token account.
   """
   @spec byte_size() :: pos_integer
-  def byte_size(), do: 165
+  def byte_size, do: 165
 
   @doc """
   Translates the result of a `Solana.RPC.Request.get_account_info/2` into a
@@ -230,7 +233,7 @@ defmodule Solana.SPL.Token do
   """
   def transfer(opts) do
     case validate(opts, @transfer_schema) do
-      {:ok, params = %{checked?: true, mint: mint, decimals: decimals}} ->
+      {:ok, %{checked?: true, mint: mint, decimals: decimals} = params} ->
         %Instruction{
           program: id(),
           accounts: [
@@ -242,7 +245,7 @@ defmodule Solana.SPL.Token do
           data: Instruction.encode_data([12, {params.amount, 64}, decimals])
         }
 
-      {:ok, params = %{checked?: false}} ->
+      {:ok, %{checked?: false} = params} ->
         %Instruction{
           program: id(),
           accounts: [
@@ -319,7 +322,7 @@ defmodule Solana.SPL.Token do
   """
   def approve(opts) do
     case validate(opts, @approve_schema) do
-      {:ok, params = %{checked?: true, mint: mint, decimals: decimals}} ->
+      {:ok, %{checked?: true, mint: mint, decimals: decimals} = params} ->
         %Instruction{
           program: id(),
           accounts: [
@@ -331,7 +334,7 @@ defmodule Solana.SPL.Token do
           data: Instruction.encode_data([13, {params.amount, 64}, decimals])
         }
 
-      {:ok, params = %{checked?: false}} ->
+      {:ok, %{checked?: false} = params} ->
         %Instruction{
           program: id(),
           accounts: [
@@ -505,15 +508,16 @@ defmodule Solana.SPL.Token do
   def mint_to(opts) do
     case validate(opts, @mint_to_schema) do
       {:ok, params} ->
-        %Instruction{
-          program: id(),
-          accounts: [
-            %Account{key: params.mint, writable?: true},
-            %Account{key: params.token, writable?: true}
-            | signer_accounts(params)
-          ]
-        }
-        |> add_mint_to_data(params)
+        add_mint_to_data(
+          %Instruction{
+            program: id(),
+            accounts: [
+              %Account{key: params.mint, writable?: true},
+              %Account{key: params.token, writable?: true} | signer_accounts(params)
+            ]
+          },
+          params
+        )
 
       error ->
         error
@@ -585,15 +589,16 @@ defmodule Solana.SPL.Token do
   def burn(opts) do
     case validate(opts, @burn_schema) do
       {:ok, params} ->
-        %Instruction{
-          program: id(),
-          accounts: [
-            %Account{key: params.token, writable?: true},
-            %Account{key: params.mint, writable?: true}
-            | signer_accounts(params)
-          ]
-        }
-        |> add_burn_data(params)
+        add_burn_data(
+          %Instruction{
+            program: id(),
+            accounts: [
+              %Account{key: params.token, writable?: true},
+              %Account{key: params.mint, writable?: true} | signer_accounts(params)
+            ]
+          },
+          params
+        )
 
       error ->
         error
@@ -753,7 +758,7 @@ defmodule Solana.SPL.Token do
     end
   end
 
-  defp signer_accounts(params = %{owner: owner}) do
+  defp signer_accounts(%{owner: owner} = params) do
     params
     |> Map.delete(:owner)
     |> Map.put(:authority, owner)

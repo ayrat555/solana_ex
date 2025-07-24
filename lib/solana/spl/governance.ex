@@ -6,8 +6,13 @@ defmodule Solana.SPL.Governance do
   The governance program aims to provide core building blocks for creating
   Decentralized Autonomous Organizations (DAOs).
   """
-  alias Solana.{SPL.Token, Key, Instruction, Account, SystemProgram}
   import Solana.Helpers
+
+  alias Solana.Account
+  alias Solana.Instruction
+  alias Solana.Key
+  alias Solana.SPL.Token
+  alias Solana.SystemProgram
 
   @max_vote_weight_sources [:fraction, :absolute]
   @vote_weight_sources [:deposit, :snapshot]
@@ -18,12 +23,12 @@ defmodule Solana.SPL.Governance do
   The Governance program's default instance ID. Organizations can also deploy
   their own custom instance if they wish.
   """
-  def id(), do: Solana.pubkey!("GovER5Lthms3bLBqWub97yVrMmEogzX7xNjdXpPPCVZw")
+  def id, do: Solana.pubkey!("GovER5Lthms3bLBqWub97yVrMmEogzX7xNjdXpPPCVZw")
 
   @doc """
   The governance program's test instance ID. This can be used to set up test DAOs.
   """
-  def test_id(), do: Solana.pubkey!("GTesTBiEWE32WHXXE2S4XbZvA5CrEc4xs6ZgRe895dP")
+  def test_id, do: Solana.pubkey!("GTesTBiEWE32WHXXE2S4XbZvA5CrEc4xs6ZgRe895dP")
 
   @doc """
   Finds the program metadata address for the given governance program. Should
@@ -200,20 +205,19 @@ defmodule Solana.SPL.Governance do
   end
 
   @doc false
-  def validate_vote({rank, weight} = vote) when rank in 0..255 and weight in 0..100,
-    do: {:ok, vote}
+  def validate_vote({rank, weight} = vote) when rank in 0..255 and weight in 0..100, do: {:ok, vote}
 
   def validate_vote(other), do: {:error, "Expected a {rank, weight} tuple, got #{inspect(other)}"}
 
   @doc false
-  def validate_account(account = %Account{}), do: {:ok, account}
+  def validate_account(%Account{} = account), do: {:ok, account}
 
   def validate_account(other) do
     {:error, "expected a Solana.Account, got #{inspect(other)}"}
   end
 
   @doc false
-  def validate_instruction(ix = %Instruction{}), do: {:ok, ix}
+  def validate_instruction(%Instruction{} = ix), do: {:ok, ix}
 
   def validate_instruction(other) do
     {:error, "expected a Solana.Instruction, got: #{inspect(other)}"}
@@ -305,13 +309,10 @@ defmodule Solana.SPL.Governance do
             %Account{key: Solana.rent()},
             council_accts,
             addin_accts,
-            if(addin_accts != [], do: [%Account{key: realm_config, writable?: true}], else: [])
+            if(addin_accts == [], do: [], else: [%Account{key: realm_config, writable?: true}])
           ]),
-        data:
-          Instruction.encode_data([0, {byte_size(name), 32}, name | realm_config_data(params)])
+        data: Instruction.encode_data([0, {byte_size(name), 32}, name | realm_config_data(params)])
       }
-    else
-      error -> error
     end
   end
 
@@ -425,8 +426,6 @@ defmodule Solana.SPL.Governance do
         ],
         data: Instruction.encode_data([1, {params.amount, 64}])
       }
-    else
-      error -> error
     end
   end
 
@@ -489,8 +488,6 @@ defmodule Solana.SPL.Governance do
         ],
         data: Instruction.encode_data([2])
       }
-    else
-      error -> error
     end
   end
 
@@ -689,8 +686,6 @@ defmodule Solana.SPL.Governance do
         ],
         data: Instruction.encode_data([4 | governance_config_data(params.config)])
       }
-    else
-      error -> error
     end
   end
 
@@ -798,12 +793,10 @@ defmodule Solana.SPL.Governance do
             ])
           )
       }
-    else
-      error -> error
     end
   end
 
-  defp bpf_loader(), do: Solana.pubkey!("BPFLoaderUpgradeab1e11111111111111111111111")
+  defp bpf_loader, do: Solana.pubkey!("BPFLoaderUpgradeab1e11111111111111111111111")
   defp find_program_data(program), do: find_address([program], bpf_loader())
 
   @create_mint_governance_schema [
@@ -906,8 +899,6 @@ defmodule Solana.SPL.Governance do
             ])
           )
       }
-    else
-      error -> error
     end
   end
 
@@ -1013,8 +1004,6 @@ defmodule Solana.SPL.Governance do
             ])
           )
       }
-    else
-      error -> error
     end
   end
 
@@ -1130,14 +1119,11 @@ defmodule Solana.SPL.Governance do
             ])
           )
       }
-    else
-      error -> error
     end
   end
 
   # https://docs.rs/spl-governance/2.1.4/spl_governance/state/proposal/enum.VoteType.html#variant.MultiChoice
-  defp check_proposal_options(%{vote_type: {:multiple, n}, options: options})
-       when n > length(options) do
+  defp check_proposal_options(%{vote_type: {:multiple, n}, options: options}) when n > length(options) do
     {:error, "number of choices greater than options available"}
   end
 
@@ -1209,8 +1195,6 @@ defmodule Solana.SPL.Governance do
         ],
         data: Instruction.encode_data([7, signatory])
       }
-    else
-      error -> error
     end
   end
 
@@ -1238,8 +1222,7 @@ defmodule Solana.SPL.Governance do
     beneficiary: [
       type: {:custom, Key, :check, []},
       required: true,
-      doc:
-        "Public key of the account to receive the disposed signatory record account's lamports."
+      doc: "Public key of the account to receive the disposed signatory record account's lamports."
     ],
     program: [
       type: {:custom, Key, :check, []},
@@ -1270,8 +1253,6 @@ defmodule Solana.SPL.Governance do
         ],
         data: Instruction.encode_data([8, signatory])
       }
-    else
-      error -> error
     end
   end
 
@@ -1360,14 +1341,12 @@ defmodule Solana.SPL.Governance do
             | tx_data(params.instructions)
           ])
       }
-    else
-      error -> error
     end
   end
 
   defp tx_data(ixs), do: List.flatten([{length(ixs), 32} | Enum.map(ixs, &ix_data/1)])
 
-  defp ix_data(ix = %Instruction{}) do
+  defp ix_data(%Instruction{} = ix) do
     List.flatten([
       ix.program,
       {length(ix.accounts), 32},
@@ -1377,7 +1356,7 @@ defmodule Solana.SPL.Governance do
     ])
   end
 
-  defp account_data(account = %Account{}) do
+  defp account_data(%Account{} = account) do
     [account.key, unary(account.signer?), unary(account.writable?)]
   end
 
@@ -1523,8 +1502,6 @@ defmodule Solana.SPL.Governance do
         ],
         data: Instruction.encode_data([12])
       }
-    else
-      error -> error
     end
   end
 
@@ -1612,8 +1589,6 @@ defmodule Solana.SPL.Governance do
         ],
         data: Instruction.encode_data([13 | vote_data(params.vote)])
       }
-    else
-      error -> error
     end
   end
 
@@ -1733,8 +1708,6 @@ defmodule Solana.SPL.Governance do
         ],
         data: Instruction.encode_data([15])
       }
-    else
-      error -> error
     end
   end
 
@@ -2024,12 +1997,10 @@ defmodule Solana.SPL.Governance do
             %Account{key: SystemProgram.id()},
             %Account{key: realm_config, writable?: true},
             addin_accts,
-            if(addin_accts != [], do: payer_account(params), else: [])
+            if(addin_accts == [], do: [], else: payer_account(params))
           ]),
         data: Instruction.encode_data([22 | realm_config_data(params)])
       }
-    else
-      error -> error
     end
   end
 
@@ -2087,8 +2058,6 @@ defmodule Solana.SPL.Governance do
         ],
         data: Instruction.encode_data([23])
       }
-    else
-      error -> error
     end
   end
 
@@ -2127,8 +2096,6 @@ defmodule Solana.SPL.Governance do
         ],
         data: Instruction.encode_data([24])
       }
-    else
-      error -> error
     end
   end
 
@@ -2177,17 +2144,15 @@ defmodule Solana.SPL.Governance do
         ],
         data: Instruction.encode_data([25])
       }
-    else
-      error -> error
     end
   end
 
   # TODO replace with with Solana.clock() once `solana` package is updated
-  defp clock(), do: Solana.pubkey!("SysvarC1ock11111111111111111111111111111111")
+  defp clock, do: Solana.pubkey!("SysvarC1ock11111111111111111111111111111111")
 
   defp unary(condition), do: if(condition, do: 1, else: 0)
 
-  defp voter_weight_accounts(params = %{realm: realm, program: program}) do
+  defp voter_weight_accounts(%{realm: realm, program: program} = params) do
     case find_realm_config_address(program, realm) do
       {:ok, config} ->
         [:voter_weight_record, :max_voter_weight_record]

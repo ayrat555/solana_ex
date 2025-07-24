@@ -1,10 +1,12 @@
 defmodule Solana.SystemProgramTest do
   use ExUnit.Case, async: true
 
-  import Solana.TestHelpers, only: [create_payer: 3]
   import Solana, only: [pubkey!: 1]
+  import Solana.TestHelpers, only: [create_payer: 3]
 
-  alias Solana.{SystemProgram, RPC, Transaction}
+  alias Solana.RPC
+  alias Solana.SystemProgram
+  alias Solana.Transaction
 
   setup_all do
     {:ok, tracker} = RPC.Tracker.start_link(network: "localhost", t: 100)

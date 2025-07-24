@@ -93,8 +93,6 @@ defmodule Solana.Key do
       [base, seed, program_id]
       |> hash()
       |> check()
-    else
-      err -> err
     end
   end
 
@@ -110,7 +108,7 @@ defmodule Solana.Key do
       |> hash()
       |> verify_off_curve()
     else
-      err = {:error, _} -> err
+      {:error, _} = err -> err
       false -> {:error, :invalid_seeds}
     end
   end
