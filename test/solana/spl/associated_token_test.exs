@@ -48,7 +48,7 @@ defmodule Solana.SPL.AssociatedTokenTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, balance}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, balance}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -72,13 +72,13 @@ defmodule Solana.SPL.AssociatedTokenTest do
       }
 
       {:ok, _signature} =
-        RPC.send_and_confirm(client, tracker, tx,
+        RPC.send_request_and_confirm(client, tracker, tx,
           commitment: "confirmed",
           timeout: 1_000
         )
 
       assert {:ok, associated_token_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(associated_token,
                    commitment: "confirmed",

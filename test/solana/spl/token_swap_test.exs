@@ -39,7 +39,7 @@ defmodule Solana.SPL.TokenSwapTest do
 
       [%{"blockhash" => blockhash}, mint_balance, token_balance, swap_balance] =
         client
-        |> RPC.send(tx_reqs)
+        |> RPC.send_request(tx_reqs)
         |> Enum.map(fn {:ok, result} -> result end)
 
       create_pool_accounts_tx = %Transaction{
@@ -105,7 +105,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_and_confirm(
+        RPC.send_request_and_confirm(
           client,
           tracker,
           [create_pool_accounts_tx, create_tokens_tx],
@@ -137,13 +137,13 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_and_confirm(client, tracker, swap_tx,
+        RPC.send_request_and_confirm(client, tracker, swap_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
 
       assert {:ok, swap_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(swap),
                    commitment: "confirmed",
@@ -193,7 +193,7 @@ defmodule Solana.SPL.TokenSwapTest do
 
       [%{"blockhash" => blockhash}, mint_balance, token_balance, swap_balance] =
         client
-        |> RPC.send(tx_reqs)
+        |> RPC.send_request(tx_reqs)
         |> Enum.map(fn {:ok, result} -> result end)
 
       create_pool_accounts_tx = %Transaction{
@@ -266,7 +266,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_and_confirm(
+        RPC.send_request_and_confirm(
           client,
           tracker,
           [create_pool_accounts_tx, create_tokens_tx],
@@ -305,7 +305,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_and_confirm(client, tracker, user_tokens_tx,
+        RPC.send_request_and_confirm(client, tracker, user_tokens_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -347,7 +347,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_and_confirm(client, tracker, swap_tx,
+        RPC.send_request_and_confirm(client, tracker, swap_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -363,7 +363,7 @@ defmodule Solana.SPL.TokenSwapTest do
 
       [user_a_info, user_b_info, user_pool_info, token_a_info, token_b_info] =
         client
-        |> RPC.send(check_requests)
+        |> RPC.send_request(check_requests)
         |> Enum.map(fn {:ok, info} -> Token.from_account_info(info) end)
 
       Enum.each([user_a_info, user_b_info], &assert(&1.amount == 0))
@@ -404,7 +404,7 @@ defmodule Solana.SPL.TokenSwapTest do
 
       [%{"blockhash" => blockhash}, mint_balance, token_balance, swap_balance] =
         client
-        |> RPC.send(tx_reqs)
+        |> RPC.send_request(tx_reqs)
         |> Enum.map(fn {:ok, result} -> result end)
 
       create_pool_accounts_tx = %Transaction{
@@ -483,7 +483,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_and_confirm(
+        RPC.send_request_and_confirm(
           client,
           tracker,
           [create_pool_accounts_tx, create_tokens_tx],
@@ -522,7 +522,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_and_confirm(client, tracker, user_tokens_tx,
+        RPC.send_request_and_confirm(client, tracker, user_tokens_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -579,7 +579,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_and_confirm(client, tracker, swap_tx,
+        RPC.send_request_and_confirm(client, tracker, swap_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -595,7 +595,7 @@ defmodule Solana.SPL.TokenSwapTest do
 
       [fee_info, user_a_info, user_b_info, user_pool_info, token_a_info, token_b_info] =
         client
-        |> RPC.send(check_requests)
+        |> RPC.send_request(check_requests)
         |> Enum.map(fn {:ok, info} -> Token.from_account_info(info) end)
 
       Enum.each([user_a_info, user_b_info], &assert(&1.amount == amount_to_withdraw))
@@ -635,7 +635,7 @@ defmodule Solana.SPL.TokenSwapTest do
 
       [%{"blockhash" => blockhash}, mint_balance, token_balance, swap_balance] =
         client
-        |> RPC.send(tx_reqs)
+        |> RPC.send_request(tx_reqs)
         |> Enum.map(fn {:ok, result} -> result end)
 
       create_pool_accounts_tx = %Transaction{
@@ -708,7 +708,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_and_confirm(
+        RPC.send_request_and_confirm(
           client,
           tracker,
           [create_pool_accounts_tx, create_tokens_tx],
@@ -747,7 +747,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_and_confirm(client, tracker, user_tokens_tx,
+        RPC.send_request_and_confirm(client, tracker, user_tokens_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -788,7 +788,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_and_confirm(client, tracker, swap_tx,
+        RPC.send_request_and_confirm(client, tracker, swap_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -804,7 +804,7 @@ defmodule Solana.SPL.TokenSwapTest do
 
       [user_a_info, user_b_info, token_a_info, token_b_info, fee_info] =
         client
-        |> RPC.send(check_requests)
+        |> RPC.send_request(check_requests)
         |> Enum.map(fn {:ok, info} -> Token.from_account_info(info) end)
 
       assert user_a_info.amount == 0
@@ -846,7 +846,7 @@ defmodule Solana.SPL.TokenSwapTest do
 
       [%{"blockhash" => blockhash}, mint_balance, token_balance, swap_balance] =
         client
-        |> RPC.send(tx_reqs)
+        |> RPC.send_request(tx_reqs)
         |> Enum.map(fn {:ok, result} -> result end)
 
       create_pool_accounts_tx = %Transaction{
@@ -919,7 +919,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_and_confirm(
+        RPC.send_request_and_confirm(
           client,
           tracker,
           [create_pool_accounts_tx, create_tokens_tx],
@@ -958,7 +958,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_and_confirm(client, tracker, user_tokens_tx,
+        RPC.send_request_and_confirm(client, tracker, user_tokens_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -1010,7 +1010,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_and_confirm(client, tracker, swap_tx,
+        RPC.send_request_and_confirm(client, tracker, swap_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -1026,7 +1026,7 @@ defmodule Solana.SPL.TokenSwapTest do
 
       [user_a_info, user_b_info, user_pool_info, token_a_info, token_b_info] =
         client
-        |> RPC.send(check_requests)
+        |> RPC.send_request(check_requests)
         |> Enum.map(fn {:ok, info} -> Token.from_account_info(info) end)
 
       Enum.each([user_a_info, user_b_info], &assert(&1.amount == 0))
@@ -1071,7 +1071,7 @@ defmodule Solana.SPL.TokenSwapTest do
 
       [%{"blockhash" => blockhash}, mint_balance, token_balance, swap_balance] =
         client
-        |> RPC.send(tx_reqs)
+        |> RPC.send_request(tx_reqs)
         |> Enum.map(fn {:ok, result} -> result end)
 
       create_pool_accounts_tx = %Transaction{
@@ -1150,7 +1150,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_and_confirm(
+        RPC.send_request_and_confirm(
           client,
           tracker,
           [create_pool_accounts_tx, create_tokens_tx],
@@ -1189,7 +1189,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_and_confirm(client, tracker, user_tokens_tx,
+        RPC.send_request_and_confirm(client, tracker, user_tokens_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -1257,7 +1257,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_and_confirm(client, tracker, swap_tx,
+        RPC.send_request_and_confirm(client, tracker, swap_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -1273,7 +1273,7 @@ defmodule Solana.SPL.TokenSwapTest do
 
       [user_a_info, user_b_info, user_pool_info, token_a_info, token_b_info] =
         client
-        |> RPC.send(check_requests)
+        |> RPC.send_request(check_requests)
         |> Enum.map(fn {:ok, info} -> Token.from_account_info(info) end)
 
       Enum.each([user_a_info, user_b_info], &assert(&1.amount == amount_to_withdraw))

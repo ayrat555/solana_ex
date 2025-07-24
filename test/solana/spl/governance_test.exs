@@ -37,7 +37,7 @@ defmodule Solana.SPL.GovernanceTest do
 
     [%{"blockhash" => blockhash}, mint_balance] =
       client
-      |> RPC.send(tx_reqs)
+      |> RPC.send_request(tx_reqs)
       |> Enum.map(fn {:ok, result} -> result end)
 
     mint_to_ix =
@@ -71,7 +71,10 @@ defmodule Solana.SPL.GovernanceTest do
     }
 
     {:ok, _signature} =
-      RPC.send_and_confirm(client, tracker, token_tx, commitment: "confirmed", timeout: 1_000)
+      RPC.send_request_and_confirm(client, tracker, token_tx,
+        commitment: "confirmed",
+        timeout: 1_000
+      )
 
     name = "realm" <> String.slice(ExBase58.encode(pubkey!(mint)), 0..6)
     proposal_index = 0
@@ -154,7 +157,7 @@ defmodule Solana.SPL.GovernanceTest do
     }
 
     assert {:ok, _signatures} =
-             RPC.send_and_confirm(client, tracker, governance_tx,
+             RPC.send_request_and_confirm(client, tracker, governance_tx,
                commitment: "confirmed",
                timeout: 1_000
              )

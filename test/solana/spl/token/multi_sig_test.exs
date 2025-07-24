@@ -27,7 +27,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, balance}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, balance}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -45,13 +45,13 @@ defmodule Solana.SPL.Token.MultiSigTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_and_confirm(client, tracker, tx,
+        RPC.send_request_and_confirm(client, tracker, tx,
           commitment: "confirmed",
           timeout: 1_000
         )
 
       assert {:ok, multisig_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(multisig),
                    commitment: "confirmed",
@@ -95,7 +95,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
       {:ok, token_balance},
       {:ok, multi_balance},
       {:ok, %{"blockhash" => blockhash}}
-    ] = RPC.send(client, tx_reqs)
+    ] = RPC.send_request(client, tx_reqs)
 
     init_tx = %Transaction{
       instructions: [
@@ -127,7 +127,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
     }
 
     {:ok, _signatures} =
-      RPC.send_and_confirm(client, tracker, init_tx,
+      RPC.send_request_and_confirm(client, tracker, init_tx,
         commitment: "confirmed",
         timeout: 1_000
       )
@@ -148,13 +148,13 @@ defmodule Solana.SPL.Token.MultiSigTest do
     }
 
     {:ok, _signatures} =
-      RPC.send_and_confirm(client, tracker, mint_tx,
+      RPC.send_request_and_confirm(client, tracker, mint_tx,
         commitment: "confirmed",
         timeout: 1_000
       )
 
     assert {:ok, token_info} =
-             RPC.send(
+             RPC.send_request(
                client,
                RPC.Request.get_account_info(pubkey!(token),
                  commitment: "confirmed",

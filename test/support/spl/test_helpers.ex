@@ -18,7 +18,10 @@ defmodule Solana.SPL.TestHelpers do
     request_opts = Keyword.take(opts, [:commitment])
 
     {:ok, tx} =
-      RPC.send(client, RPC.Request.request_airdrop(Solana.pubkey!(payer), sol, request_opts))
+      RPC.send_request(
+        client,
+        RPC.Request.request_airdrop(Solana.pubkey!(payer), sol, request_opts)
+      )
 
     :ok = RPC.Tracker.start_tracking(tracker, tx, request_opts)
 
