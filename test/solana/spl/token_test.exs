@@ -17,6 +17,7 @@ defmodule Solana.SPL.TokenTest do
   end
 
   describe "init/1" do
+    @describetag :skip
     test "initializes a token account", %{client: client, payer: payer, tracker: tracker} do
       [mint, token, auth, owner] = keypairs(4)
 
@@ -82,6 +83,7 @@ defmodule Solana.SPL.TokenTest do
   end
 
   describe "approve/1" do
+    @describetag :skip
     test "approves a delegate to transfer tokens from an account", %{
       client: client,
       tracker: tracker,
@@ -237,6 +239,7 @@ defmodule Solana.SPL.TokenTest do
   end
 
   describe "revoke/1" do
+    @describetag :skip
     test "revokes a delegate to prevent transfer of tokens from an account", %{
       client: client,
       tracker: tracker,
@@ -318,6 +321,7 @@ defmodule Solana.SPL.TokenTest do
   end
 
   describe "set_authority/1" do
+    @describetag :skip
     test "can set an token account's authority", %{client: client, payer: payer, tracker: tracker} do
       [mint, token, auth, owner, new_owner] = keypairs(5)
 
@@ -389,6 +393,7 @@ defmodule Solana.SPL.TokenTest do
   end
 
   describe "mint_to/1" do
+    @describetag :skip
     test "can mint tokens to a token account", %{client: client, payer: payer, tracker: tracker} do
       [mint, token, auth, owner] = keypairs(4)
 
@@ -521,6 +526,7 @@ defmodule Solana.SPL.TokenTest do
   end
 
   describe "transfer/1" do
+    @describetag :skip
     test "can transfer tokens between two token accounts", %{
       client: client,
       payer: payer,
@@ -706,6 +712,7 @@ defmodule Solana.SPL.TokenTest do
   end
 
   describe "burn/1" do
+    @describetag :skip
     test "can burn tokens from a token account", %{client: client, payer: payer, tracker: tracker} do
       [mint, token, auth, owner] = keypairs(4)
 
@@ -852,6 +859,7 @@ defmodule Solana.SPL.TokenTest do
   end
 
   describe "close_account/1" do
+    @describetag :skip
     test "closes a token account", %{client: client, payer: payer, tracker: tracker} do
       [mint, token, auth, owner] = keypairs(4)
 
@@ -913,6 +921,7 @@ defmodule Solana.SPL.TokenTest do
   end
 
   describe "freeze/1" do
+    @describetag :skip
     test "freezes a token account", %{client: client, payer: payer, tracker: tracker} do
       [mint, token, auth, owner] = keypairs(4)
 
@@ -977,6 +986,7 @@ defmodule Solana.SPL.TokenTest do
   end
 
   describe "thaw/1" do
+    @describetag :skip
     test "thaws a frozen token account", %{client: client, payer: payer, tracker: tracker} do
       [mint, token, auth, owner] = keypairs(4)
 

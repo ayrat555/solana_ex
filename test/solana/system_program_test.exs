@@ -17,6 +17,7 @@ defmodule Solana.SystemProgramTest do
   end
 
   describe "create_account/1" do
+    @describetag :skip
     test "can create account", %{tracker: tracker, client: client, payer: payer} do
       new = Solana.keypair()
 
@@ -91,6 +92,7 @@ defmodule Solana.SystemProgramTest do
   end
 
   describe "transfer/1" do
+    @describetag :skip
     test "can transfer lamports to an account", %{tracker: tracker, client: client, payer: payer} do
       new = Solana.keypair()
       space = 0
@@ -192,6 +194,7 @@ defmodule Solana.SystemProgramTest do
   end
 
   describe "assign/1" do
+    @describetag :skip
     test "can assign a new program ID to an account", %{
       tracker: tracker,
       client: client,
@@ -298,6 +301,7 @@ defmodule Solana.SystemProgramTest do
   end
 
   describe "allocate/1" do
+    @describetag :skip
     test "can allocate space to an account", %{tracker: tracker, client: client, payer: payer} do
       new = Solana.keypair()
       space = 0

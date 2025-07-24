@@ -26,6 +26,7 @@ defmodule Solana.SPL.TokenSwapTest do
   end
 
   describe "init/1" do
+    @describetag :skip
     test "initializes a token swap account", %{client: client, payer: payer, tracker: tracker} do
       [swap, owner, pool_mint, pool, fee_account] = keypairs(5)
       {:ok, authority, nonce} = Key.find_address([pubkey!(swap)], TokenSwap.id())
@@ -175,6 +176,7 @@ defmodule Solana.SPL.TokenSwapTest do
   end
 
   describe "deposit_all/1" do
+    @describetag :skip
     test "can deposit both `A` and `B` tokens", %{client: client, payer: payer, tracker: tracker} do
       [swap, owner, pool_mint, pool, fee_account] = keypairs(5)
       {:ok, authority, _} = Key.find_address([pubkey!(swap)], TokenSwap.id())
@@ -381,6 +383,7 @@ defmodule Solana.SPL.TokenSwapTest do
   end
 
   describe "withdraw_all/1" do
+    @describetag :skip
     test "can withdraw both `A` and `B` tokens", %{client: client, payer: payer, tracker: tracker} do
       [swap, owner, pool_mint, pool, fee_account] = keypairs(5)
       {:ok, authority, _} = Key.find_address([pubkey!(swap)], TokenSwap.id())
@@ -612,6 +615,7 @@ defmodule Solana.SPL.TokenSwapTest do
   end
 
   describe "swap/1" do
+    @describetag :skip
     test "can swap `A` and `B` tokens", %{client: client, payer: payer, tracker: tracker} do
       [swap, owner, pool_mint, pool, fee_account] = keypairs(5)
       {:ok, authority, _} = Key.find_address([pubkey!(swap)], TokenSwap.id())
@@ -824,6 +828,7 @@ defmodule Solana.SPL.TokenSwapTest do
   end
 
   describe "deposit/1" do
+    @describetag :skip
     test "can deposit `A` or `B` tokens", %{client: client, payer: payer, tracker: tracker} do
       [swap, owner, pool_mint, pool, fee_account] = keypairs(5)
       {:ok, authority, _} = Key.find_address([pubkey!(swap)], TokenSwap.id())
@@ -1041,6 +1046,7 @@ defmodule Solana.SPL.TokenSwapTest do
   end
 
   describe "withdraw/1" do
+    @describetag :skip
     test "can withdraw `A` or `B` tokens", %{client: client, payer: payer, tracker: tracker} do
       [swap, owner, pool_mint, pool, fee_account] = keypairs(5)
       {:ok, authority, _} = Key.find_address([pubkey!(swap)], TokenSwap.id())

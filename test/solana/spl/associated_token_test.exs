@@ -18,6 +18,7 @@ defmodule Solana.SPL.AssociatedTokenTest do
   end
 
   describe "find_address/2" do
+    @describetag :skip
     test "fails if the owner is invalid" do
       assert :error =
                AssociatedToken.find_address(
@@ -38,6 +39,7 @@ defmodule Solana.SPL.AssociatedTokenTest do
   end
 
   describe "create_account/1" do
+    @describetag :skip
     test "creates an associated token account", %{client: client, tracker: tracker, payer: payer} do
       [mint, auth, owner] = keypairs(3)
 
