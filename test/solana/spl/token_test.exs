@@ -27,7 +27,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -96,7 +96,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -171,7 +171,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -251,7 +251,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -328,7 +328,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -399,7 +399,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -465,7 +465,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -535,7 +535,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -624,7 +624,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -716,7 +716,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -788,7 +788,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -862,7 +862,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -923,7 +923,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
@@ -987,7 +987,7 @@ defmodule Solana.SPL.TokenTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =

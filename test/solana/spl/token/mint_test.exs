@@ -25,7 +25,7 @@ defmodule Solana.SPL.Token.MintTest do
 
       tx_reqs = [
         RPC.Request.get_minimum_balance_for_rent_exemption(space, opts),
-        RPC.Request.get_recent_blockhash(opts)
+        RPC.Request.get_latest_blockhash(opts)
       ]
 
       [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] =

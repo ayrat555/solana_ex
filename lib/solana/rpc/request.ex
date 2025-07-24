@@ -162,7 +162,7 @@ defmodule Solana.RPC.Request do
   """
   @spec request_airdrop(account :: Solana.key(), sol :: pos_integer, opts :: keyword) :: t
   def request_airdrop(account, sol, opts \\ []) do
-    {"requestAirdrop", [ExBase58.encode(account), sol * Solana.lamports_per_sol(), encode_opts(opts)]}
+    {"requestAirdrop", [ExBase58.encode!(account), sol * Solana.lamports_per_sol(), encode_opts(opts)]}
   end
 
   @doc """
@@ -174,7 +174,7 @@ defmodule Solana.RPC.Request do
   """
   @spec get_signatures_for_address(account :: Solana.key(), opts :: keyword) :: t
   def get_signatures_for_address(account, opts \\ []) do
-    {"getSignaturesForAddress", [ExBase58.encode(account), encode_opts(opts)]}
+    {"getSignaturesForAddress", [ExBase58.encode!(account), encode_opts(opts)]}
   end
 
   @doc """

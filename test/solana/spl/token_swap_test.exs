@@ -33,7 +33,7 @@ defmodule Solana.SPL.TokenSwapTest do
       tokens = [token_a, token_b] = keypairs(2)
 
       tx_reqs = [
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
         | Enum.map([Token.Mint, Token, TokenSwap], fn mod ->
             RPC.Request.get_minimum_balance_for_rent_exemption(mod.byte_size(),
               commitment: "confirmed"
@@ -187,7 +187,7 @@ defmodule Solana.SPL.TokenSwapTest do
       expected_pool_amount = 10_000_000
 
       tx_reqs = [
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
         | Enum.map([Token.Mint, Token, TokenSwap], fn mod ->
             RPC.Request.get_minimum_balance_for_rent_exemption(mod.byte_size(),
               commitment: "confirmed"
@@ -397,7 +397,7 @@ defmodule Solana.SPL.TokenSwapTest do
       amount_to_withdraw = div(amount_to_deposit * 5, 6)
 
       tx_reqs = [
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
         | Enum.map([Token.Mint, Token, TokenSwap], fn mod ->
             RPC.Request.get_minimum_balance_for_rent_exemption(mod.byte_size(),
               commitment: "confirmed"
@@ -627,7 +627,7 @@ defmodule Solana.SPL.TokenSwapTest do
       swap_fee = 22_273
 
       tx_reqs = [
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
         | Enum.map([Token.Mint, Token, TokenSwap], fn mod ->
             RPC.Request.get_minimum_balance_for_rent_exemption(mod.byte_size(),
               commitment: "confirmed"
@@ -837,7 +837,7 @@ defmodule Solana.SPL.TokenSwapTest do
       expected_pool_amount = trade_to_pool(amount_to_deposit, amount_to_mint, pool_supply)
 
       tx_reqs = [
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
         | Enum.map([Token.Mint, Token, TokenSwap], fn mod ->
             RPC.Request.get_minimum_balance_for_rent_exemption(mod.byte_size(),
               commitment: "confirmed"
@@ -1061,7 +1061,7 @@ defmodule Solana.SPL.TokenSwapTest do
         )
 
       tx_reqs = [
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
         | Enum.map([Token.Mint, Token, TokenSwap], fn mod ->
             RPC.Request.get_minimum_balance_for_rent_exemption(mod.byte_size(),
               commitment: "confirmed"
