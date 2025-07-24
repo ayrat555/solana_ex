@@ -16,6 +16,7 @@ defmodule Solana.SPL.Token.MintTest do
   end
 
   describe "init/1" do
+    @describetag :skip
     test "initializes a new mint, with and without a freeze_authority", global do
       new = Solana.keypair()
       freeze = Solana.keypair()

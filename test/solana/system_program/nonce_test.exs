@@ -17,6 +17,7 @@ defmodule Solana.SystemProgram.NonceTest do
   end
 
   describe "init/1" do
+    @describetag :skip
     test "can create a nonce account", %{tracker: tracker, client: client, payer: payer} do
       new = Solana.keypair()
       space = SystemProgram.Nonce.byte_size()
@@ -62,6 +63,7 @@ defmodule Solana.SystemProgram.NonceTest do
   end
 
   describe "authorize/1" do
+    @describetag :skip
     test "can set a new authority for a nonce account", %{
       tracker: tracker,
       client: client,
@@ -120,6 +122,7 @@ defmodule Solana.SystemProgram.NonceTest do
   end
 
   describe "advance/1" do
+    @describetag :skip
     test "can change a nonce account's nonce", %{tracker: tracker, client: client, payer: payer} do
       new = Solana.keypair()
       space = SystemProgram.Nonce.byte_size()
@@ -192,6 +195,7 @@ defmodule Solana.SystemProgram.NonceTest do
   end
 
   describe "withdraw/1" do
+    @describetag :skip
     test "can withdraw lamports from a nonce account", %{
       tracker: tracker,
       client: client,

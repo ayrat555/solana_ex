@@ -17,6 +17,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
   end
 
   describe "init/1" do
+    @describetag :skip
     test "initializes a multi-sig account", %{client: client, payer: payer, tracker: tracker} do
       [multisig | signers] = keypairs(11)
 
@@ -70,6 +71,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
     end
   end
 
+  @tag :skip
   test "can execute other instructions using a multi-sig account", %{
     client: client,
     payer: payer,

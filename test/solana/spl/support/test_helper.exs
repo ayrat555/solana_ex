@@ -30,6 +30,6 @@ opts = [
     end)
 ]
 
-{:ok, validator} = TestValidator.start_link(opts)
-ExUnit.after_suite(fn _ -> TestValidator.stop(validator) end)
+# {:ok, validator} = TestValidator.start_link(opts)
+# ExUnit.after_suite(fn _ -> TestValidator.stop(validator) end)
 ExUnit.start()

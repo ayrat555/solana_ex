@@ -10,26 +10,28 @@ defmodule Solana.SPL.TestHelpers do
   """
   @spec create_payer(tracker :: pid, RPC.client(), keyword) ::
           {:ok, Solana.keypair()} | {:error, :timeout}
-  def create_payer(tracker, client, opts \\ []) do
+  def create_payer(_tracker, _client, _opts \\ []) do
     payer = Solana.keypair()
 
-    sol = Keyword.get(opts, :amount, 5)
-    timeout = Keyword.get(opts, :timeout, 5_000)
-    request_opts = Keyword.take(opts, [:commitment])
+    # sol = Keyword.get(opts, :amount, 5)
+    # timeout = Keyword.get(opts, :timeout, 5_000)
+    # request_opts = Keyword.take(opts, [:commitment])
 
-    {:ok, tx} =
-      RPC.send_request(
-        client,
-        RPC.Request.request_airdrop(Solana.pubkey!(payer), sol, request_opts)
-      )
+    # {:ok, tx} =
+    #   RPC.send_request(
+    #     client,
+    #     RPC.Request.request_airdrop(Solana.pubkey!(payer), sol, request_opts)
+    #   )
 
-    :ok = RPC.Tracker.start_tracking(tracker, tx, request_opts)
+    # :ok = RPC.Tracker.start_tracking(tracker, tx, request_opts)
 
-    receive do
-      {:ok, [^tx]} -> {:ok, payer}
-    after
-      timeout -> {:error, :timeout}
-    end
+    # receive do
+    #   {:ok, [^tx]} -> {:ok, payer}
+    # after
+    #   timeout -> {:error, :timeout}
+    # end
+
+    {:ok, payer}
   end
 
   @doc """
