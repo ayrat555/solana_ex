@@ -58,6 +58,8 @@ defmodule Solana.MixProject do
       # validating parameters
       {:nimble_options, "~> 1.1.1"},
       # docs and testing
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
