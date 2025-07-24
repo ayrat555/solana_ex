@@ -34,14 +34,14 @@ defmodule Solana.SPL.Governance do
   Finds the program metadata address for the given governance program. Should
   have the seeds: `["metadata"]`
   """
-  @spec find_metadata_address(program :: Key.t()) :: Key.t()
+  @spec find_metadata_address(program :: Key.t()) :: {:ok, Key.t()} | {:error, :no_nonce}
   def find_metadata_address(program), do: find_address(["metadata"], program)
 
   @doc """
   Finds the native SOL treasury address for the given `governance` account.
   Should have the seeds: `["treasury", governance]`
   """
-  @spec find_native_treasury_address(program :: Key.t(), governance :: Key.t()) :: Key.t()
+  @spec find_native_treasury_address(program :: Key.t(), governance :: Key.t()) :: {:ok, Key.t()} | {:error, :no_nonce}
   def find_native_treasury_address(program, governance) do
     find_address(["treasury", governance], program)
   end
@@ -49,7 +49,7 @@ defmodule Solana.SPL.Governance do
   @doc """
   Finds the realm address for the given `name`. Should have the seeds `["governance", name]`
   """
-  @spec find_realm_address(program :: Key.t(), name :: String.t()) :: Key.t()
+  @spec find_realm_address(program :: Key.t(), name :: String.t()) :: {:ok, Key.t()} | {:error, :no_nonce}
   def find_realm_address(program, name) do
     find_address(["governance", name], program)
   end
@@ -58,7 +58,8 @@ defmodule Solana.SPL.Governance do
   Finds a token holding address for the given community/council `mint`. Should
   have the seeds: `["governance", realm, mint]`.
   """
-  @spec find_holding_address(program :: Key.t(), realm :: Key.t(), mint :: Key.t()) :: Key.t()
+  @spec find_holding_address(program :: Key.t(), realm :: Key.t(), mint :: Key.t()) ::
+          {:ok, Key.t()} | {:error, :no_nonce}
   def find_holding_address(program, realm, mint) do
     find_address(["governance", realm, mint], program)
   end
@@ -67,7 +68,7 @@ defmodule Solana.SPL.Governance do
   Finds the realm config address for the given `realm`. Should have the seeds:
   `["realm-config", realm]`.
   """
-  @spec find_realm_config_address(program :: Key.t(), realm :: Key.t()) :: Key.t()
+  @spec find_realm_config_address(program :: Key.t(), realm :: Key.t()) :: {:ok, Key.t()} | {:error, :no_nonce}
   def find_realm_config_address(program, realm) do
     find_address(["realm-config", realm], program)
   end
@@ -81,7 +82,7 @@ defmodule Solana.SPL.Governance do
           realm :: Key.t(),
           mint :: Key.t(),
           owner :: Key.t()
-        ) :: Key.t()
+        ) :: {:ok, Key.t()} | {:error, :no_nonce}
   def find_owner_record_address(program, realm, mint, owner) do
     find_address(["governance", realm, mint, owner], program)
   end
@@ -94,7 +95,7 @@ defmodule Solana.SPL.Governance do
           program :: Key.t(),
           proposal :: Key.t(),
           owner_record :: Key.t()
-        ) :: Key.t()
+        ) :: {:ok, Key.t()} | {:error, :no_nonce}
   def find_vote_record_address(program, proposal, owner_record) do
     find_address(["governance", proposal, owner_record], program)
   end
@@ -104,7 +105,7 @@ defmodule Solana.SPL.Governance do
   Should have the seeds: `["account-governance", realm, account]`.
   """
   @spec find_account_governance_address(program :: Key.t(), realm :: Key.t(), account :: Key.t()) ::
-          Key.t()
+          {:ok, Key.t()} | {:error, :no_nonce}
   def find_account_governance_address(program, realm, account) do
     find_address(["account-governance", realm, account], program)
   end
@@ -114,7 +115,7 @@ defmodule Solana.SPL.Governance do
   program. Should have the seeds: `["program-governance", realm, governed]`.
   """
   @spec find_program_governance_address(program :: Key.t(), realm :: Key.t(), governed :: Key.t()) ::
-          Key.t()
+          {:ok, Key.t()} | {:error, :no_nonce}
   def find_program_governance_address(program, realm, governed) do
     find_address(["program-governance", realm, governed], program)
   end
@@ -124,7 +125,7 @@ defmodule Solana.SPL.Governance do
   Should have the seeds: `["mint-governance", realm, mint]`.
   """
   @spec find_mint_governance_address(program :: Key.t(), realm :: Key.t(), mint :: Key.t()) ::
-          Key.t()
+          {:ok, Key.t()} | {:error, :no_nonce}
   def find_mint_governance_address(program, realm, mint) do
     find_address(["mint-governance", realm, mint], program)
   end
@@ -134,7 +135,7 @@ defmodule Solana.SPL.Governance do
   Should have the seeds: `["token-governance", realm, token]`.
   """
   @spec find_token_governance_address(program :: Key.t(), realm :: Key.t(), token :: Key.t()) ::
-          Key.t()
+          {:ok, Key.t()} | {:error, :no_nonce}
   def find_token_governance_address(program, realm, token) do
     find_address(["token-governance", realm, token], program)
   end
@@ -148,8 +149,7 @@ defmodule Solana.SPL.Governance do
           governance :: Key.t(),
           mint :: Key.t(),
           index :: integer
-        ) ::
-          Key.t()
+        ) :: {:ok, Key.t()} | {:error, :no_nonce}
   def find_proposal_address(program, governance, mint, index) do
     find_address(["governance", governance, mint, <<index::size(32)>>], program)
   end
@@ -162,7 +162,7 @@ defmodule Solana.SPL.Governance do
           program :: Key.t(),
           proposal :: Key.t(),
           signatory :: Key.t()
-        ) :: Key.t()
+        ) :: {:ok, Key.t()} | {:error, :no_nonce}
   def find_signatory_record_address(program, proposal, signatory) do
     find_address(["governance", proposal, signatory], program)
   end
@@ -176,7 +176,7 @@ defmodule Solana.SPL.Governance do
           proposal :: Key.t(),
           index :: non_neg_integer,
           option :: non_neg_integer
-        ) :: Key.t()
+        ) :: {:ok, Key.t()} | {:error, :no_nonce}
   def find_transaction_address(program, proposal, index, option \\ 0) do
     find_address(["governance", proposal, <<option::size(8)>>, <<index::size(16)>>], program)
   end
