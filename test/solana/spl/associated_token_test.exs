@@ -72,7 +72,7 @@ defmodule Solana.SPL.AssociatedTokenTest do
       }
 
       {:ok, _signature} =
-        RPC.send_request_and_confirm(client, tracker, tx,
+        RPC.send_and_confirm(client, tracker, tx,
           commitment: "confirmed",
           timeout: 1_000
         )

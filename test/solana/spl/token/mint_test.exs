@@ -53,7 +53,7 @@ defmodule Solana.SPL.Token.MintTest do
       }
 
       opts = [commitment: "confirmed", timeout: 1_000]
-      {:ok, _signatures} = RPC.send_request_and_confirm(global.client, global.tracker, tx, opts)
+      {:ok, _signatures} = RPC.send_and_confirm(global.client, global.tracker, tx, opts)
       opts = [commitment: "confirmed", encoding: "jsonParsed"]
 
       assert {:ok, mint} =

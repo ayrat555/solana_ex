@@ -71,7 +71,7 @@ defmodule Solana.SPL.GovernanceTest do
     }
 
     {:ok, _signature} =
-      RPC.send_request_and_confirm(client, tracker, token_tx,
+      RPC.send_and_confirm(client, tracker, token_tx,
         commitment: "confirmed",
         timeout: 1_000
       )
@@ -157,7 +157,7 @@ defmodule Solana.SPL.GovernanceTest do
     }
 
     assert {:ok, _signatures} =
-             RPC.send_request_and_confirm(client, tracker, governance_tx,
+             RPC.send_and_confirm(client, tracker, governance_tx,
                commitment: "confirmed",
                timeout: 1_000
              )

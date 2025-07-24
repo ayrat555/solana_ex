@@ -45,7 +45,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_request_and_confirm(client, tracker, tx,
+        RPC.send_and_confirm(client, tracker, tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -127,7 +127,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
     }
 
     {:ok, _signatures} =
-      RPC.send_request_and_confirm(client, tracker, init_tx,
+      RPC.send_and_confirm(client, tracker, init_tx,
         commitment: "confirmed",
         timeout: 1_000
       )
@@ -148,7 +148,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
     }
 
     {:ok, _signatures} =
-      RPC.send_request_and_confirm(client, tracker, mint_tx,
+      RPC.send_and_confirm(client, tracker, mint_tx,
         commitment: "confirmed",
         timeout: 1_000
       )

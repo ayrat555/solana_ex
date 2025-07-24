@@ -105,7 +105,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_request_and_confirm(
+        RPC.send_and_confirm(
           client,
           tracker,
           [create_pool_accounts_tx, create_tokens_tx],
@@ -137,7 +137,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_request_and_confirm(client, tracker, swap_tx,
+        RPC.send_and_confirm(client, tracker, swap_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -266,7 +266,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_request_and_confirm(
+        RPC.send_and_confirm(
           client,
           tracker,
           [create_pool_accounts_tx, create_tokens_tx],
@@ -305,7 +305,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_request_and_confirm(client, tracker, user_tokens_tx,
+        RPC.send_and_confirm(client, tracker, user_tokens_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -347,7 +347,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_request_and_confirm(client, tracker, swap_tx,
+        RPC.send_and_confirm(client, tracker, swap_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -483,7 +483,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_request_and_confirm(
+        RPC.send_and_confirm(
           client,
           tracker,
           [create_pool_accounts_tx, create_tokens_tx],
@@ -522,7 +522,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_request_and_confirm(client, tracker, user_tokens_tx,
+        RPC.send_and_confirm(client, tracker, user_tokens_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -579,7 +579,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_request_and_confirm(client, tracker, swap_tx,
+        RPC.send_and_confirm(client, tracker, swap_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -708,7 +708,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_request_and_confirm(
+        RPC.send_and_confirm(
           client,
           tracker,
           [create_pool_accounts_tx, create_tokens_tx],
@@ -747,7 +747,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_request_and_confirm(client, tracker, user_tokens_tx,
+        RPC.send_and_confirm(client, tracker, user_tokens_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -788,7 +788,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_request_and_confirm(client, tracker, swap_tx,
+        RPC.send_and_confirm(client, tracker, swap_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -919,7 +919,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_request_and_confirm(
+        RPC.send_and_confirm(
           client,
           tracker,
           [create_pool_accounts_tx, create_tokens_tx],
@@ -958,7 +958,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_request_and_confirm(client, tracker, user_tokens_tx,
+        RPC.send_and_confirm(client, tracker, user_tokens_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -1010,7 +1010,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_request_and_confirm(client, tracker, swap_tx,
+        RPC.send_and_confirm(client, tracker, swap_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -1150,7 +1150,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signatures} =
-        RPC.send_request_and_confirm(
+        RPC.send_and_confirm(
           client,
           tracker,
           [create_pool_accounts_tx, create_tokens_tx],
@@ -1189,7 +1189,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_request_and_confirm(client, tracker, user_tokens_tx,
+        RPC.send_and_confirm(client, tracker, user_tokens_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
@@ -1257,7 +1257,7 @@ defmodule Solana.SPL.TokenSwapTest do
       }
 
       {:ok, _signature} =
-        RPC.send_request_and_confirm(client, tracker, swap_tx,
+        RPC.send_and_confirm(client, tracker, swap_tx,
           commitment: "confirmed",
           timeout: 1_000
         )
