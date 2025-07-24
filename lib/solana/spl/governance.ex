@@ -340,7 +340,7 @@ defmodule Solana.SPL.Governance do
       ),
       {elem(params.max_vote_weight_source, 1), 64},
       unary(Map.has_key?(params, :voter_weight_addin)),
-      unary(Map.has_key?(params, :max_voter_weight_addin)),
+      unary(Map.has_key?(params, :max_voter_weight_addin))
     ]
   end
 
@@ -674,7 +674,6 @@ defmodule Solana.SPL.Governance do
          %{program: program, realm: realm, governed: governed} = params,
          {:ok, account_governance} <- find_account_governance_address(program, realm, governed),
          {:ok, voter_weight_accts} <- voter_weight_accounts(params) do
-
       %Instruction{
         program: program,
         accounts: [
@@ -1357,8 +1356,8 @@ defmodule Solana.SPL.Governance do
             9,
             option,
             {index, 16},
-            {params.delay, 32} |
-            tx_data(params.instructions)
+            {params.delay, 32}
+            | tx_data(params.instructions)
           ])
       }
     else
@@ -1948,13 +1947,14 @@ defmodule Solana.SPL.Governance do
           program: params.program,
           accounts: [
             %Account{key: params.realm, writable?: true},
-            %Account{key: params.current, signer?: true} |
-            new_realm_authority_account(params)
+            %Account{key: params.current, signer?: true}
+            | new_realm_authority_account(params)
           ],
-          data: Instruction.encode_data([
-            21,
-            Enum.find_index(@set_realm_authority_actions, &(&1 == params.action))
-          ])
+          data:
+            Instruction.encode_data([
+              21,
+              Enum.find_index(@set_realm_authority_actions, &(&1 == params.action))
+            ])
         }
 
       error ->
@@ -2194,6 +2194,7 @@ defmodule Solana.SPL.Governance do
         |> Enum.filter(&Map.has_key?(params, &1))
         |> Enum.map(&%Account{key: &1})
         |> then(&{:ok, [%Account{key: config} | &1]})
+
       error ->
         error
     end
