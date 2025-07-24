@@ -26,7 +26,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
         RPC.Request.get_minimum_balance_for_rent_exemption(Token.MultiSig.byte_size(),
           commitment: "confirmed"
         ),
-        RPC.Request.get_recent_blockhash(commitment: "confirmed")
+        RPC.Request.get_latest_blockhash(commitment: "confirmed")
       ]
 
       [{:ok, balance}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
@@ -89,7 +89,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
       RPC.Request.get_minimum_balance_for_rent_exemption(Token.MultiSig.byte_size(),
         commitment: "confirmed"
       ),
-      RPC.Request.get_recent_blockhash(commitment: "confirmed")
+      RPC.Request.get_latest_blockhash(commitment: "confirmed")
     ]
 
     [

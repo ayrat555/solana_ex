@@ -35,7 +35,7 @@ defmodule Solana.SPL.GovernanceTest do
     {:ok, token} = AssociatedToken.find_address(pubkey!(mint), pubkey!(payer))
 
     tx_reqs = [
-      RPC.Request.get_recent_blockhash(commitment: "confirmed"),
+      RPC.Request.get_latest_blockhash(commitment: "confirmed"),
       RPC.Request.get_minimum_balance_for_rent_exemption(Token.Mint.byte_size(),
         commitment: "confirmed"
       )
