@@ -83,8 +83,8 @@ jobs:
         run: mix credo --strict
         if: ${{ matrix.lint }}
 
-      # - name: Run mix test
-      #   run: mix test
+      - name: Run mix test
+        run: mix test
 
       - name: Run dialyzer
         run: mix dialyzer
