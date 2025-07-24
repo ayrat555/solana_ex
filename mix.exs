@@ -2,7 +2,7 @@ defmodule Solana.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/ayrat555/solana_ex"
-  @version "0.2.0"
+  @version "0.1.0"
 
   def project do
     [
