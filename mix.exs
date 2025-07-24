@@ -6,7 +6,7 @@ defmodule Solana.MixProject do
 
   def project do
     [
-      app: :solana,
+      app: :solana_ex,
       description: description(),
       version: @version,
       elixir: "~> 1.12",
@@ -36,7 +36,7 @@ defmodule Solana.MixProject do
 
   defp package do
     [
-      name: "solana",
+      name: "solana_ex",
       maintainers: ["Airat Badykov"],
       licenses: ["MIT"],
       links: %{
