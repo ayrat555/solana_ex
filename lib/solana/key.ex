@@ -139,14 +139,18 @@ defmodule Solana.Key do
     case check(program_id) do
       {:ok, program_id} ->
         Enum.reduce_while(255..1//-1, {:error, :no_nonce}, fn nonce, acc ->
-          case derive_address(List.flatten([seeds, nonce]), program_id) do
-            {:ok, address} -> {:halt, {:ok, address, nonce}}
-            _err -> {:cont, acc}
-          end
+          try_to_derive_address(acc, seeds, nonce, program_id)
         end)
 
       error ->
         error
+    end
+  end
+
+  defp try_to_derive_address(acc, seeds, nonce, program_id) do
+    case derive_address(List.flatten([seeds, nonce]), program_id) do
+      {:ok, address} -> {:halt, {:ok, address, nonce}}
+      _err -> {:cont, acc}
     end
   end
 end

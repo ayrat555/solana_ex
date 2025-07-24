@@ -206,14 +206,14 @@ defmodule Solana.SPL.Governance do
   def validate_vote(other), do: {:error, "Expected a {rank, weight} tuple, got #{inspect(other)}"}
 
   @doc false
-  def validate_account(%Account{} = account), do: {:ok, account}
+  def validate_account(account = %Account{}), do: {:ok, account}
 
   def validate_account(other) do
     {:error, "expected a Solana.Account, got #{inspect(other)}"}
   end
 
   @doc false
-  def validate_instruction(%Instruction{} = ix), do: {:ok, ix}
+  def validate_instruction(ix = %Instruction{}), do: {:ok, ix}
 
   def validate_instruction(other) do
     {:error, "expected a Solana.Instruction, got: #{inspect(other)}"}
@@ -1367,7 +1367,7 @@ defmodule Solana.SPL.Governance do
 
   defp tx_data(ixs), do: List.flatten([{length(ixs), 32} | Enum.map(ixs, &ix_data/1)])
 
-  defp ix_data(%Instruction{} = ix) do
+  defp ix_data(ix = %Instruction{}) do
     List.flatten([
       ix.program,
       {length(ix.accounts), 32},
@@ -1377,7 +1377,7 @@ defmodule Solana.SPL.Governance do
     ])
   end
 
-  defp account_data(%Account{} = account) do
+  defp account_data(account = %Account{}) do
     [account.key, unary(account.signer?), unary(account.writable?)]
   end
 
@@ -2187,7 +2187,7 @@ defmodule Solana.SPL.Governance do
 
   defp unary(condition), do: if(condition, do: 1, else: 0)
 
-  defp voter_weight_accounts(%{realm: realm, program: program} = params) do
+  defp voter_weight_accounts(params = %{realm: realm, program: program}) do
     case find_realm_config_address(program, realm) do
       {:ok, config} ->
         [:voter_weight_record, :max_voter_weight_record]
