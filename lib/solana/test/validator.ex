@@ -72,6 +72,7 @@ defmodule Solana.TestValidator do
   See `Solana.TestValidator.start_link/1` for more details.
   """
   use GenServer
+
   require Logger
 
   @schema [
@@ -178,12 +179,12 @@ defmodule Solana.TestValidator do
   end
 
   @doc false
-  def handle_info({port, {:data, text}}, state = %{port: port}) do
+  def handle_info({port, {:data, text}}, %{port: port} = state) do
     {:noreply, %{state | latest_output: String.trim(text)}}
   end
 
   @doc false
-  def handle_info({port, {:exit_status, status}}, state = %{port: port}) do
+  def handle_info({port, {:exit_status, status}}, %{port: port} = state) do
     {:noreply, %{state | exit_status: status}}
   end
 
@@ -203,7 +204,7 @@ defmodule Solana.TestValidator do
     {:noreply, state}
   end
 
-  defp wrapper_path() do
+  defp wrapper_path do
     Path.expand(Path.join(Path.dirname(__ENV__.file), "./bin/wrapper-unix"))
   end
 end

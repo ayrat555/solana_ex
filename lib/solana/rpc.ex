@@ -3,10 +3,11 @@ defmodule Solana.RPC do
   Functions for dealing with Solana's [JSON-RPC
   API](https://docs.solana.com/developing/clients/jsonrpc-api).
   """
-  require Logger
+  import Solana.Helpers
 
   alias Solana.RPC
-  import Solana.Helpers
+
+  require Logger
 
   @typedoc "Solana JSON-RPC API client."
   @type client :: Tesla.Client.t()
@@ -125,7 +126,8 @@ defmodule Solana.RPC do
   defp await_confirmations(signatures, timeout, done) do
     receive do
       {:ok, confirmed} ->
-        MapSet.new(signatures)
+        signatures
+        |> MapSet.new()
         |> MapSet.difference(MapSet.new(confirmed))
         |> MapSet.to_list()
         |> await_confirmations(timeout, List.flatten([done, confirmed]))
@@ -154,7 +156,7 @@ defmodule Solana.RPC do
     Keyword.merge(retry_defaults(), retry_options)
   end
 
-  defp retry_defaults() do
+  defp retry_defaults do
     [max_retries: 10, max_delay: 4_000, should_retry: &should_retry?/1]
   end
 

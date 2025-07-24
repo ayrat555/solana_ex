@@ -93,8 +93,6 @@ defmodule Solana.Key do
       [base, seed, program_id]
       |> hash()
       |> check()
-    else
-      err -> err
     end
   end
 
@@ -110,7 +108,7 @@ defmodule Solana.Key do
       |> hash()
       |> verify_off_curve()
     else
-      err = {:error, _} -> err
+      {:error, _} = err -> err
       false -> {:error, :invalid_seeds}
     end
   end
@@ -139,14 +137,18 @@ defmodule Solana.Key do
     case check(program_id) do
       {:ok, program_id} ->
         Enum.reduce_while(255..1//-1, {:error, :no_nonce}, fn nonce, acc ->
-          case derive_address(List.flatten([seeds, nonce]), program_id) do
-            {:ok, address} -> {:halt, {:ok, address, nonce}}
-            _err -> {:cont, acc}
-          end
+          try_to_derive_address(acc, seeds, nonce, program_id)
         end)
 
       error ->
         error
+    end
+  end
+
+  defp try_to_derive_address(acc, seeds, nonce, program_id) do
+    case derive_address(List.flatten([seeds, nonce]), program_id) do
+      {:ok, address} -> {:halt, {:ok, address, nonce}}
+      _err -> {:cont, acc}
     end
   end
 end

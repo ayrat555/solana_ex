@@ -1,10 +1,15 @@
 defmodule Solana.SPL.GovernanceTest do
   use ExUnit.Case, async: true
 
-  import Solana.SPL.TestHelpers, only: [create_payer: 3, keypairs: 1]
   import Solana, only: [pubkey!: 1]
+  import Solana.SPL.TestHelpers, only: [create_payer: 3, keypairs: 1]
 
-  alias Solana.{Key, RPC, Transaction, SPL.Governance, SPL.Token, SPL.AssociatedToken}
+  alias Solana.Key
+  alias Solana.RPC
+  alias Solana.SPL.AssociatedToken
+  alias Solana.SPL.Governance
+  alias Solana.SPL.Token
+  alias Solana.Transaction
 
   setup_all do
     {:ok, tracker} = RPC.Tracker.start_link(network: "localhost", t: 100)
@@ -12,7 +17,8 @@ defmodule Solana.SPL.GovernanceTest do
     {:ok, payer} = create_payer(tracker, client, commitment: "confirmed")
 
     program =
-      Key.pair_from_file("deps/solana-program-library/target/deploy/spl_governance-keypair.json")
+      "deps/solana-program-library/target/deploy/spl_governance-keypair.json"
+      |> Key.pair_from_file()
       |> elem(1)
       |> pubkey!()
 
@@ -37,7 +43,7 @@ defmodule Solana.SPL.GovernanceTest do
 
     [%{"blockhash" => blockhash}, mint_balance] =
       client
-      |> RPC.send(tx_reqs)
+      |> RPC.send_request(tx_reqs)
       |> Enum.map(fn {:ok, result} -> result end)
 
     mint_to_ix =
@@ -71,7 +77,10 @@ defmodule Solana.SPL.GovernanceTest do
     }
 
     {:ok, _signature} =
-      RPC.send_and_confirm(client, tracker, token_tx, commitment: "confirmed", timeout: 1_000)
+      RPC.send_and_confirm(client, tracker, token_tx,
+        commitment: "confirmed",
+        timeout: 1_000
+      )
 
     name = "realm" <> String.slice(ExBase58.encode(pubkey!(mint)), 0..6)
     proposal_index = 0
@@ -114,7 +123,7 @@ defmodule Solana.SPL.GovernanceTest do
           governed: pubkey!(mint),
           mint_authority: pubkey!(payer),
           program: program,
-          config: [threshold: {:yes, 60}, duration: :timer.hours(3)]
+          config: [threshold: {:yes, 60}, duration: to_timeout(hour: 3)]
         ),
         Governance.set_realm_authority(
           realm: realm,

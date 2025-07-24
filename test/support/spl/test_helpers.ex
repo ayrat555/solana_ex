@@ -8,7 +8,7 @@ defmodule Solana.SPL.TestHelpers do
   Creates an account and airdrops some SOL to it. This is useful when creating
   other accounts and you need an account to pay the rent fees.
   """
-  @spec create_payer(tracker :: pid, Solana.RPC.client(), keyword) ::
+  @spec create_payer(tracker :: pid, RPC.client(), keyword) ::
           {:ok, Solana.keypair()} | {:error, :timeout}
   def create_payer(tracker, client, opts \\ []) do
     payer = Solana.keypair()
@@ -18,7 +18,10 @@ defmodule Solana.SPL.TestHelpers do
     request_opts = Keyword.take(opts, [:commitment])
 
     {:ok, tx} =
-      RPC.send(client, RPC.Request.request_airdrop(Solana.pubkey!(payer), sol, request_opts))
+      RPC.send_request(
+        client,
+        RPC.Request.request_airdrop(Solana.pubkey!(payer), sol, request_opts)
+      )
 
     :ok = RPC.Tracker.start_tracking(tracker, tx, request_opts)
 

@@ -3,8 +3,11 @@ defmodule Solana.Transaction do
   Functions for building and encoding Solana
   [transactions](https://docs.solana.com/developing/programming-model/transactions)
   """
+  alias Solana.Account
+  alias Solana.CompactArray
+  alias Solana.Instruction
+
   require Logger
-  alias Solana.{Account, CompactArray, Instruction}
 
   @typedoc """
   All the details needed to encode a transaction.
@@ -87,7 +90,7 @@ defmodule Solana.Transaction do
   def to_binary(%__MODULE__{blockhash: nil}), do: {:error, :no_blockhash}
   def to_binary(%__MODULE__{instructions: []}), do: {:error, :no_instructions}
 
-  def to_binary(tx = %__MODULE__{instructions: ixs, signers: signers}) do
+  def to_binary(%__MODULE__{instructions: ixs, signers: signers} = tx) do
     with {:ok, ixs} <- check_instructions(List.flatten(ixs)),
          accounts = compile_accounts(ixs, tx.payer),
          true <- signers_match?(accounts, signers) do
@@ -161,20 +164,18 @@ defmodule Solana.Transaction do
 
     accounts
     |> Enum.filter(& &1.signer?)
-    |> Enum.map(& &1.key)
-    |> MapSet.new()
+    |> MapSet.new(& &1.key)
     |> MapSet.equal?(expected)
   end
 
   # https://docs.solana.com/developing/programming-model/transactions#message-format
   defp encode_message(accounts, blockhash, ixs) do
-    [
+    :erlang.list_to_binary([
       create_header(accounts),
       CompactArray.to_iolist(Enum.map(accounts, & &1.key)),
       blockhash,
       CompactArray.to_iolist(encode_instructions(ixs, accounts))
-    ]
-    |> :erlang.list_to_binary()
+    ])
   end
 
   # https://docs.solana.com/developing/programming-model/transactions#message-header-format
@@ -197,7 +198,7 @@ defmodule Solana.Transaction do
   defp encode_instructions(ixs, accounts) do
     idxs = index_accounts(accounts)
 
-    Enum.map(ixs, fn ix = %Instruction{} ->
+    Enum.map(ixs, fn %Instruction{} = ix ->
       [
         Map.get(idxs, ix.program),
         CompactArray.to_iolist(Enum.map(ix.accounts, &Map.get(idxs, &1.key))),
@@ -212,7 +213,7 @@ defmodule Solana.Transaction do
   end
 
   defp index_accounts(accounts) do
-    Enum.into(Enum.with_index(accounts, &{&1.key, &2}), %{})
+    Map.new(Enum.with_index(accounts, &{&1.key, &2}))
   end
 
   defp sign({secret, pk}, message) do
@@ -245,7 +246,7 @@ defmodule Solana.Transaction do
          <<blockhash::binary-size(32), ix_data::binary>> <- hash_and_ixs,
          {:ok, instructions} <- extract_instructions(ix_data) do
       tx_accounts = derive_accounts(account_keys, key_count, header)
-      indices = Enum.into(Enum.with_index(tx_accounts, &{&2, &1}), %{})
+      indices = Map.new(Enum.with_index(tx_accounts, &{&2, &1}))
 
       {
         %__MODULE__{
@@ -255,7 +256,7 @@ defmodule Solana.Transaction do
             Enum.map(instructions, fn {program, accounts, data} ->
               %Instruction{
                 data: if(data == "", do: nil, else: :binary.list_to_bin(data)),
-                program: Map.get(indices, program) |> Map.get(:key),
+                program: indices |> Map.get(program) |> Map.get(:key),
                 accounts: Enum.map(accounts, &Map.get(indices, &1))
               }
             end)
@@ -275,8 +276,6 @@ defmodule Solana.Transaction do
     with {ix_data, ix_count} <- CompactArray.decode_and_split(data),
          {reversed_ixs, ""} <- extract_instructions(ix_data, ix_count) do
       {:ok, Enum.reverse(reversed_ixs)}
-    else
-      error -> error
     end
   end
 

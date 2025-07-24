@@ -17,17 +17,13 @@ defmodule Solana.KeyTest do
 
     test "fails for keys which aren't base58-encoded" do
       assert {:error, _} =
-               Key.decode(
-                 "0x300000000000000000000000000000000000000000000000000000000000000000000"
-               )
+               Key.decode("0x300000000000000000000000000000000000000000000000000000000000000000000")
 
       assert {:error, _} =
                Key.decode("0x300000000000000000000000000000000000000000000000000000000000000")
 
       assert {:error, _} =
-               Key.decode(
-                 "135693854574979916511997248057056142015550763280047535983739356259273198796800000"
-               )
+               Key.decode("135693854574979916511997248057056142015550763280047535983739356259273198796800000")
     end
 
     test "works for the default key" do
@@ -50,9 +46,7 @@ defmodule Solana.KeyTest do
       end
 
       assert_raise ArgumentError, fn ->
-        Key.decode!(
-          "135693854574979916511997248057056142015550763280047535983739356259273198796800000"
-        )
+        Key.decode!("135693854574979916511997248057056142015550763280047535983739356259273198796800000")
       end
     end
 
@@ -75,14 +69,16 @@ defmodule Solana.KeyTest do
     end
 
     test "works with strings as seeds", %{program_id: program_id} do
-      [
-        {"3gF2KMe9KiC6FNVBmfg9i267aMPvK37FewCip4eGBFcT", ["", <<1>>]},
-        {"HwRVBufQ4haG5XSgpspwKtNd3PC9GM9m1196uJW36vds", ["Talking", "Squirrels"]},
-        {"7ytmC1nT1xY4RfxCV2ZgyA7UakC93do5ZdyhdF3EtPj7", ["☉"]}
-      ]
-      |> Enum.each(fn {encoded, seeds} ->
-        assert Key.decode(encoded) == Key.derive_address(seeds, program_id)
-      end)
+      Enum.each(
+        [
+          {"3gF2KMe9KiC6FNVBmfg9i267aMPvK37FewCip4eGBFcT", ["", <<1>>]},
+          {"HwRVBufQ4haG5XSgpspwKtNd3PC9GM9m1196uJW36vds", ["Talking", "Squirrels"]},
+          {"7ytmC1nT1xY4RfxCV2ZgyA7UakC93do5ZdyhdF3EtPj7", ["☉"]}
+        ],
+        fn {encoded, seeds} ->
+          assert Key.decode(encoded) == Key.derive_address(seeds, program_id)
+        end
+      )
     end
 
     test "works with public keys and strings as seeds", %{program_id: program_id} do
@@ -129,8 +125,7 @@ defmodule Solana.KeyTest do
     end
 
     test "does not load a keypair from invalid files" do
-      ["invalid1", "invalid2"]
-      |> Enum.each(fn name ->
+      Enum.each(["invalid1", "invalid2"], fn name ->
         assert {:error, "invalid wallet format"} = Key.pair_from_file("test/support/#{name}.json")
       end)
     end

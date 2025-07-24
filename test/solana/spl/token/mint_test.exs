@@ -3,7 +3,9 @@ defmodule Solana.SPL.Token.MintTest do
 
   import Solana.SPL.TestHelpers, only: [create_payer: 3]
 
-  alias Solana.{Transaction, RPC, SPL.Token}
+  alias Solana.RPC
+  alias Solana.SPL.Token
+  alias Solana.Transaction
 
   setup_all do
     {:ok, tracker} = RPC.Tracker.start_link(network: "localhost", t: 100)
@@ -26,7 +28,8 @@ defmodule Solana.SPL.Token.MintTest do
         RPC.Request.get_recent_blockhash(opts)
       ]
 
-      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(global.client, tx_reqs)
+      [{:ok, lamports}, {:ok, %{"blockhash" => blockhash}}] =
+        RPC.send_request(global.client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -56,7 +59,10 @@ defmodule Solana.SPL.Token.MintTest do
       opts = [commitment: "confirmed", encoding: "jsonParsed"]
 
       assert {:ok, mint} =
-               RPC.send(global.client, RPC.Request.get_account_info(Solana.pubkey!(new), opts))
+               RPC.send_request(
+                 global.client,
+                 RPC.Request.get_account_info(Solana.pubkey!(new), opts)
+               )
 
       assert %Token.Mint{
                decimals: 0,
@@ -67,7 +73,10 @@ defmodule Solana.SPL.Token.MintTest do
              } = Token.Mint.from_account_info(mint)
 
       assert {:ok, freeze_mint} =
-               RPC.send(global.client, RPC.Request.get_account_info(Solana.pubkey!(freeze), opts))
+               RPC.send_request(
+                 global.client,
+                 RPC.Request.get_account_info(Solana.pubkey!(freeze), opts)
+               )
 
       assert %Token.Mint{
                decimals: 0,

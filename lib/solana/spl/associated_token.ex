@@ -7,13 +7,18 @@ defmodule Solana.SPL.AssociatedToken do
   account and the token mint, which means each user can only have one associated
   token account per token.
   """
-  alias Solana.{SPL.Token, Key, Instruction, Account, SystemProgram}
   import Solana.Helpers
+
+  alias Solana.Account
+  alias Solana.Instruction
+  alias Solana.Key
+  alias Solana.SPL.Token
+  alias Solana.SystemProgram
 
   @doc """
   The Associated Token Account's Program ID
   """
-  def id(), do: Solana.pubkey!("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL")
+  def id, do: Solana.pubkey!("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL")
 
   @doc """
   Finds the token account address associated with a given owner and mint.
@@ -32,22 +37,22 @@ defmodule Solana.SPL.AssociatedToken do
 
   @create_account_schema [
     payer: [
-      type: {:custom, Solana.Key, :check, []},
+      type: {:custom, Key, :check, []},
       required: true,
       doc: "The account which will pay for the `new` account's creation"
     ],
     owner: [
-      type: {:custom, Solana.Key, :check, []},
+      type: {:custom, Key, :check, []},
       required: true,
       doc: "The account which will own the `new` account"
     ],
     new: [
-      type: {:custom, Solana.Key, :check, []},
+      type: {:custom, Key, :check, []},
       required: true,
       doc: "Public key of the associated token account to create"
     ],
     mint: [
-      type: {:custom, Solana.Key, :check, []},
+      type: {:custom, Key, :check, []},
       required: true,
       doc: "The mint of the `new` account"
     ]

@@ -42,7 +42,7 @@ defmodule Solana.RPC.Request do
   end
 
   defp check_params([]), do: []
-  defp check_params([map = %{} | rest]) when map_size(map) == 0, do: check_params(rest)
+  defp check_params([%{} = map | rest]) when map_size(map) == 0, do: check_params(rest)
   defp check_params([elem | rest]), do: [elem | check_params(rest)]
 
   @doc """
@@ -141,19 +141,17 @@ defmodule Solana.RPC.Request do
   docs](https://docs.solana.com/developing/clients/jsonrpc-api#sendtransaction).
   """
   @spec send_transaction(transaction :: Solana.Transaction.t(), opts :: keyword) :: t
-  def send_transaction(tx = %Solana.Transaction{}, opts \\ []) do
+  def send_transaction(%Solana.Transaction{} = tx, opts \\ []) do
     {:ok, tx_bin} = Solana.Transaction.to_binary(tx)
     opts = opts |> fix_tx_opts() |> encode_opts(%{"encoding" => "base64"})
     {"sendTransaction", [Base.encode64(tx_bin), opts]}
   end
 
   defp fix_tx_opts(opts) do
-    opts
-    |> Enum.map(fn
+    Enum.map(opts, fn
       {:commitment, commitment} -> {:preflight_commitment, commitment}
       other -> other
     end)
-    |> Enum.into([])
   end
 
   @doc """
@@ -164,8 +162,7 @@ defmodule Solana.RPC.Request do
   """
   @spec request_airdrop(account :: Solana.key(), sol :: pos_integer, opts :: keyword) :: t
   def request_airdrop(account, sol, opts \\ []) do
-    {"requestAirdrop",
-     [ExBase58.encode(account), sol * Solana.lamports_per_sol(), encode_opts(opts)]}
+    {"requestAirdrop", [ExBase58.encode(account), sol * Solana.lamports_per_sol(), encode_opts(opts)]}
   end
 
   @doc """
@@ -247,8 +244,7 @@ defmodule Solana.RPC.Request do
   """
   @spec get_multiple_accounts(accounts :: [Solana.key()], opts :: keyword) :: t
   def get_multiple_accounts(accounts, opts \\ []) when is_list(accounts) do
-    {"getMultipleAccounts",
-     [Enum.map(accounts, &ExBase58.encode/1), encode_opts(opts, %{"encoding" => "base64"})]}
+    {"getMultipleAccounts", [Enum.map(accounts, &ExBase58.encode/1), encode_opts(opts, %{"encoding" => "base64"})]}
   end
 
   defp encode_opts(opts, defaults \\ %{}) do

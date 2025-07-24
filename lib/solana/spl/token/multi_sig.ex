@@ -7,8 +7,12 @@ defmodule Solana.SPL.Token.MultiSig do
   present.
   """
 
-  alias Solana.{Instruction, Account, SPL.Token, SystemProgram}
   import Solana.Helpers
+
+  alias Solana.Account
+  alias Solana.Instruction
+  alias Solana.SPL.Token
+  alias Solana.SystemProgram
 
   @typedoc "Multi-signature account metadata."
   @type t :: %__MODULE__{
@@ -24,7 +28,7 @@ defmodule Solana.SPL.Token.MultiSig do
             signers: []
 
   @doc "The size of a serialized multi-signature account."
-  def byte_size(), do: 355
+  def byte_size, do: 355
 
   @doc """
   Translates the result of a `Solana.RPC.Request.get_account_info/2` into a

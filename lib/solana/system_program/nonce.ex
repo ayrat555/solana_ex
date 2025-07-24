@@ -9,13 +9,16 @@ defmodule Solana.SystemProgram.Nonce do
   that require more time to generate a transaction signature than the normal
   `recent_blockhash` transaction mechanism gives them (~2 minutes).
   """
-  alias Solana.{Instruction, Account, SystemProgram}
   import Solana.Helpers
+
+  alias Solana.Account
+  alias Solana.Instruction
+  alias Solana.SystemProgram
 
   @doc """
   The size of a serialized nonce account.
   """
-  def byte_size(), do: 80
+  def byte_size, do: 80
 
   @doc """
   Translates the result of a `Solana.RPC.Request.get_account_info/2` into a
@@ -30,11 +33,7 @@ defmodule Solana.SystemProgram.Nonce do
 
   def from_account_info(_), do: :error
 
-  defp from_nonce_account_info(%{
-         "authority" => authority,
-         "blockhash" => blockhash,
-         "feeCalculator" => calculator
-       }) do
+  defp from_nonce_account_info(%{"authority" => authority, "blockhash" => blockhash, "feeCalculator" => calculator}) do
     %{
       authority: Solana.pubkey!(authority),
       blockhash: ExBase58.decode!(blockhash),

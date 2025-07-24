@@ -32,7 +32,7 @@ defmodule Solana do
   """
   def pubkey!(pair_or_encoded)
 
-  def pubkey!(pair = {_sk, _pk}) do
+  def pubkey!({_sk, _pk} = pair) do
     case pubkey(pair) do
       {:ok, key} -> key
       _ -> raise ArgumentError, "invalid keypair: #{inspect(pair)}"
@@ -45,26 +45,26 @@ defmodule Solana do
   The public key for the [Rent system
   variable](https://docs.solana.com/developing/runtime-facilities/sysvars#rent).
   """
-  def rent(), do: pubkey!("SysvarRent111111111111111111111111111111111")
+  def rent, do: pubkey!("SysvarRent111111111111111111111111111111111")
 
   @doc """
   The public key for the [RecentBlockhashes system
   variable](https://docs.solana.com/developing/runtime-facilities/sysvars#recentblockhashes)
   """
-  def recent_blockhashes(), do: pubkey!("SysvarRecentB1ockHashes11111111111111111111")
+  def recent_blockhashes, do: pubkey!("SysvarRecentB1ockHashes11111111111111111111")
 
   @doc """
   The public key for the [Clock system
   variable](https://docs.solana.com/developing/runtime-facilities/sysvars#clock)
   """
-  def clock(), do: pubkey!("SysvarC1ock11111111111111111111111111111111")
+  def clock, do: pubkey!("SysvarC1ock11111111111111111111111111111111")
 
   @doc """
   The public key for the [BPF Loader
   program](https://docs.solana.com/developing/runtime-facilities/programs#bpf-loader)
   """
-  def bpf_loader(), do: pubkey!("BPFLoaderUpgradeab1e11111111111111111111111")
+  def bpf_loader, do: pubkey!("BPFLoaderUpgradeab1e11111111111111111111111")
 
   @doc false
-  def lamports_per_sol(), do: 1_000_000_000
+  def lamports_per_sol, do: 1_000_000_000
 end

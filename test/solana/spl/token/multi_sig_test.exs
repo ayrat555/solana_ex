@@ -1,10 +1,12 @@
 defmodule Solana.SPL.Token.MultiSigTest do
   use ExUnit.Case, async: true
 
-  import Solana.SPL.TestHelpers, only: [create_payer: 3, keypairs: 1]
   import Solana, only: [pubkey!: 1]
+  import Solana.SPL.TestHelpers, only: [create_payer: 3, keypairs: 1]
 
-  alias Solana.{RPC, SPL.Token, Transaction}
+  alias Solana.RPC
+  alias Solana.SPL.Token
+  alias Solana.Transaction
 
   setup_all do
     {:ok, tracker} = RPC.Tracker.start_link(network: "localhost", t: 100)
@@ -27,7 +29,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
         RPC.Request.get_recent_blockhash(commitment: "confirmed")
       ]
 
-      [{:ok, balance}, {:ok, %{"blockhash" => blockhash}}] = RPC.send(client, tx_reqs)
+      [{:ok, balance}, {:ok, %{"blockhash" => blockhash}}] = RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -51,7 +53,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
         )
 
       assert {:ok, multisig_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(multisig),
                    commitment: "confirmed",
@@ -95,7 +97,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
       {:ok, token_balance},
       {:ok, multi_balance},
       {:ok, %{"blockhash" => blockhash}}
-    ] = RPC.send(client, tx_reqs)
+    ] = RPC.send_request(client, tx_reqs)
 
     init_tx = %Transaction{
       instructions: [
@@ -154,7 +156,7 @@ defmodule Solana.SPL.Token.MultiSigTest do
       )
 
     assert {:ok, token_info} =
-             RPC.send(
+             RPC.send_request(
                client,
                RPC.Request.get_account_info(pubkey!(token),
                  commitment: "confirmed",

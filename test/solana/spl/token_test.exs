@@ -1,10 +1,12 @@
 defmodule Solana.SPL.TokenTest do
   use ExUnit.Case, async: true
 
-  import Solana.SPL.TestHelpers, only: [create_payer: 3, keypairs: 1]
   import Solana, only: [pubkey!: 1]
+  import Solana.SPL.TestHelpers, only: [create_payer: 3, keypairs: 1]
 
-  alias Solana.{RPC, Transaction, SPL.Token}
+  alias Solana.RPC
+  alias Solana.SPL.Token
+  alias Solana.Transaction
 
   setup_all do
     {:ok, tracker} = RPC.Tracker.start_link(network: "localhost", t: 100)
@@ -29,7 +31,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -60,7 +62,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, token_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(token),
                    commitment: "confirmed",
@@ -98,7 +100,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -135,7 +137,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, token_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(token),
                    commitment: "confirmed",
@@ -173,7 +175,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -213,7 +215,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, token_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(token),
                    commitment: "confirmed",
@@ -253,7 +255,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -294,7 +296,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, token_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(token),
                    commitment: "confirmed",
@@ -330,7 +332,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -367,7 +369,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, token_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(token),
                    commitment: "confirmed",
@@ -401,7 +403,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -438,7 +440,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, token_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(token),
                    commitment: "confirmed",
@@ -467,7 +469,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -506,7 +508,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, token_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(token),
                    commitment: "confirmed",
@@ -537,7 +539,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -587,7 +589,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, from_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(from),
                    commitment: "confirmed",
@@ -596,7 +598,7 @@ defmodule Solana.SPL.TokenTest do
                )
 
       assert {:ok, to_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(to),
                    commitment: "confirmed",
@@ -626,7 +628,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -681,7 +683,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, from_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(from),
                    commitment: "confirmed",
@@ -690,7 +692,7 @@ defmodule Solana.SPL.TokenTest do
                )
 
       assert {:ok, to_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(to),
                    commitment: "confirmed",
@@ -718,7 +720,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -761,7 +763,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, token_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(token),
                    commitment: "confirmed",
@@ -790,7 +792,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -837,7 +839,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, token_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(token),
                    commitment: "confirmed",
@@ -864,7 +866,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -900,7 +902,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, nil} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(token),
                    commitment: "confirmed",
@@ -925,7 +927,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -962,7 +964,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, token_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(token),
                    commitment: "confirmed",
@@ -989,7 +991,7 @@ defmodule Solana.SPL.TokenTest do
       ]
 
       [{:ok, mint_balance}, {:ok, token_balance}, {:ok, %{"blockhash" => blockhash}}] =
-        RPC.send(client, tx_reqs)
+        RPC.send_request(client, tx_reqs)
 
       tx = %Transaction{
         instructions: [
@@ -1031,7 +1033,7 @@ defmodule Solana.SPL.TokenTest do
         )
 
       assert {:ok, token_info} =
-               RPC.send(
+               RPC.send_request(
                  client,
                  RPC.Request.get_account_info(pubkey!(token),
                    commitment: "confirmed",
